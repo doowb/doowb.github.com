@@ -1,0 +1,23 @@
+---
+links:
+  - Index.html
+  - Info.html
+stylesheets: [styles.css, bootstrap.css]
+scripts: [jquery.js]
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    {{#each stylesheets}}<link rel="stylesheet" href="{{../assets}}/css/{{.}}">{{/each}}
+  </head>
+  <body>
+    {{> nav }}
+
+    <div class="container">
+      {{> body }}
+    </div>
+    {{#each scripts}}<script src="{{../assets}}/js/{{.}}"></script>{{/each}}
+  </body>
+</html>
+

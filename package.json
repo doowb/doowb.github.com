@@ -1,0 +1,52 @@
+{
+  "name": "Blog",
+  "description": "THE Blog.",
+  "version": "0.1.0",
+  "homepage": "https://doowb.github.com/",
+  "author": {
+    "name": "Brian Woodward",
+    "url": "http://github.com/doowb/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/doowb/doowb.github.com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/doowb/doowb.github.com/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://doowb.github.com//blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "index.html",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "dependencies": {
+    "assemble": "~0.3.1",
+    "assemble-less": "~0.4.0"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "node microsoft",
+    "node on azure",
+    "node azure",
+    "azure node",
+    "windows azure node",
+    "azure nodejs",
+    "nodejs on azure",
+    "azure node.js",
+    "azure node sdk",
+    "node.js cloud",
+    "nodejs windows azure",
+    "windows azure nodejs"
+  ]
+}
+
+
