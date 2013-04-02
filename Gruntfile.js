@@ -1,35 +1,32 @@
 // Blog, by @doowb
 
-'use strict';
-
 module.exports = function(grunt) {
-  
+
+  'use strict';
+
+  var data = grunt.file.readJSON;
+
   // Project configuration.
   grunt.initConfig({
-
-    pkg: grunt.file.readJSON('package.json'),
-    pkg: grunt.file.readJSON('src/bootstrap.json'),
+    pkg:       data('package.json'),
+    bootstrap: data('src/bootstrap.json'),
 
     less: {
-      styles: {
-        options: {
-          require: '<%= bootstrap.less.globals %>',
-          paths:  ['<%= bootstrap.base %>']
-        },
+      options: { 
+        require: '<%= bootstrap.less.globals %>',
+        paths: '<%= bootstrap.base %>'
+      },
+      component: {
         files: {
-          'assets/css/styles.css': ['src/less/styles.less']
+          'assets/css/styles.css': ['src/styles/styles.less']
         }
       }
     },
     assemble: {
-      pages: {
-        options: {
-          layout: 'src/layout.hbs'
-          data:  ['src/data/*.json']
-          assets: 'assets',
-        },
+      options: data('options.json'),
+      component: {
         files: {
-          '.': ['src/pages/*.hbs']
+          'dist/': ['src/pages/*.hbs']
         }
       }
     },
@@ -41,7 +38,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.config.set('bootstrap.base', './src/bootstrap');
+  grunt.config.set('bootstrap.base', './src/assets/bootstrap');
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks('assemble');
@@ -52,3 +49,4 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['less', 'assemble']);
 
 };
+
