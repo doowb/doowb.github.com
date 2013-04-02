@@ -1,18 +1,15 @@
 ---
 links:
   - Index.html
-  - Context.html
-  - Component.html
-  - Markdown.html
-stylesheet: bootstrap.css
-scripts: jquery.js
+  - Info.html
+stylesheets: [styles.css, bootstrap.css]
+scripts: [jquery.js]
 ---
 <!DOCTYPE html>
 <html>
   <head>
     <title>{{ title }}</title>
-    <link rel="stylesheet" href="{{assets}}/css/{{stylesheet}}">
-    <link rel="stylesheet" href="{{assets}}/css/dropdown.css">
+    {{#each stylesheets}}<link rel="stylesheet" href="{{../assets}}/css/{{.}}">{{/each}}
   </head>
   <body>
     {{> nav }}
@@ -20,6 +17,7 @@ scripts: jquery.js
     <div class="container">
       {{> body }}
     </div>
-  <script src="{{assets}}/js/{{scripts}}"></script>
+    {{#each scripts}}<script src="{{../assets}}/js/{{.}}"></script>{{/each}}
   </body>
 </html>
+

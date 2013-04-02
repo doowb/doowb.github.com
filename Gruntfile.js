@@ -18,7 +18,7 @@ module.exports = function(grunt) {
       },
       component: {
         files: {
-          'assets/css/styles.css': ['src/styles/styles.less']
+          'public/css/styles.css': ['src/styles/styles.less']
         }
       }
     },
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       options: data('options.json'),
       component: {
         files: {
-          'dist/': ['src/pages/*.hbs']
+          '.': ['src/pages/*.hbs']
         }
       }
     },

@@ -47,8 +47,7 @@
 
     "globals": [
       "<%= bootstrap.less.variables %>",
-      "<%= bootstrap.less.mixins %>",
-      "<%= bootstrap.less.utilities %>"
+      "<%= bootstrap.less.mixins %>"
     ],
 
     "core": [
