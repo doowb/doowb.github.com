@@ -1,0 +1,9 @@
+{
+  "flatten": true,
+  "layout": "src/layouts/default.hbs",
+  "partials": [
+    "src/partials/*.hbs"
+  ],
+  "assets": "public",
+  "ext": ".html"
+}
