@@ -1,0 +1,15 @@
+---
+title: Home
+lead: Welcome to our Site!
+wiki: https://github.com/assemble/assemble/wiki/YAML-Front-Matter
+file: src/content/test.md
+---
+<div class="page-header">
+  <h1>{{ title }}</h1>
+  <p class="lead">{{ lead }}</p>
+</div>
+
+<p> At the top of each page in this example, there is a section for providing metadata about the page, this is called <a href="{{ wiki }}">YAML Front-Matter</a></p>
+
+{{{md file}}}
+

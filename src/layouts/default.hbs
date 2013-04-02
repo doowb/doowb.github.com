@@ -1,0 +1,25 @@
+---
+links:
+  - Index.html
+  - Context.html
+  - Component.html
+  - Markdown.html
+stylesheet: bootstrap.css
+scripts: jquery.js
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{assets}}/css/{{stylesheet}}">
+    <link rel="stylesheet" href="{{assets}}/css/dropdown.css">
+  </head>
+  <body>
+    {{> nav }}
+
+    <div class="container">
+      {{> body }}
+    </div>
+  <script src="{{assets}}/js/{{scripts}}"></script>
+  </body>
+</html>
