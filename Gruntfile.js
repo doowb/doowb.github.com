@@ -12,7 +12,7 @@ module.exports = function(grunt) {
     bootstrap: data('src/bootstrap.json'),
 
     less: {
-      options: { 
+      options: {
         require: '<%= bootstrap.less.globals %>',
         paths: '<%= bootstrap.base %>'
       },
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       options: data('options.json'),
       component: {
         files: {
-          '.': ['src/pages/*.hbs']
+          './': ['src/pages/*.hbs']
         }
       }
     },
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task.
-  grunt.registerTask('default', ['less', 'assemble']);
+  grunt.registerTask('default', ['assemble']);
 
 };
 
