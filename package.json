@@ -24,14 +24,12 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "dependencies": {
-    "assemble": "git://github.com/assemble/assemble.git",
-    "assemble-less": "~0.4.0"
-  },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-watch": "~0.2.0",
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.1",
+    "assemble-less": "~0.5.3",
+    "assemble": "~0.4.33"
   },
   "keywords": [
     "node microsoft",
@@ -48,5 +46,3 @@
     "windows azure nodejs"
   ]
 }
-
-

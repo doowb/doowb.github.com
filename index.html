@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -27,12 +26,12 @@
   <p class="lead">Listen to me! I have shit to say!</p>
 </div>
 
-<h1>Header 1</h1>
-<h2>Header 2</h2>
-<h3>Header 3 ###             (Hashes on right are optional)</h3>
-<h4>Header 4</h4>
-<h5>Header 5</h5>
-<h2>Markdown plus h2 with a custom ID ##         {#id-goes-here}</h2>
+<h1 id="header-1">Header 1</h1>
+<h2 id="header-2">Header 2</h2>
+<h3 id="header-3-hashes-on-right-are-optional-">Header 3 ###             (Hashes on right are optional)</h3>
+<h4 id="header-4">Header 4</h4>
+<h5 id="header-5">Header 5</h5>
+<h2 id="markdown-plus-h2-with-a-custom-id-id-goes-here-">Markdown plus h2 with a custom ID ##         {#id-goes-here}</h2>
 <p><a href="#id-goes-here">Link back to H2</a></p>
 <p>This is a paragraph, which is text surrounded by whitespace. Paragraphs can be on one 
 line (or many), and can drone on for hours.  </p>
@@ -51,51 +50,55 @@ words are ignored in Markdown Extra.</p>
 </blockquote>
 <ul>
 <li>Bullet lists are easy too</li>
+</ul>
+<ul>
 <li>Another one</li>
-<li><p>Another one</p>
-</li>
-<li><p>A numbered list</p>
-</li>
+</ul>
+<ul>
+<li>Another one</li>
+</ul>
+<ol>
+<li>A numbered list</li>
 <li>Which is numbered</li>
 <li>With periods and a space</li>
-</ul>
+</ol>
 <p>And now some code:</p>
-<pre><code>// <span class="variable">Code</span> is just text indented a bit
-<span class="function"><span class="title">which</span><span class="params">(is_easy)</span> <span class="title">to_remember</span><span class="params">()</span>;</code></pre>
+<pre><code>// Code is just text indented a bit
+which(is_easy) to_remember();</code></pre>
 <pre><code>
-<span class="regexp">//</span> Markdown extra adds un-indented code blocks too
+// Markdown extra adds un-indented code blocks too
 
-<span class="keyword">if</span> (this_is_more_code == <span class="literal">true</span> &amp;&amp; !indented) {
-    <span class="regexp">//</span> tild wrapped code blocks, also <span class="keyword">not</span> indented
+if (this_is_more_code == true &amp;&amp; !indented) {
+    // tild wrapped code blocks, also not indented
 }</code></pre>
 <p>Text with<br>two trailing spaces<br>(on the right)<br>can be used<br>for things like poems  </p>
-<h3>Horizontal rules</h3>
+<h3 id="horizontal-rules">Horizontal rules</h3>
 <hr>
-<h2><em>**</em></h2>
+<h2 id="-"><em>**</em></h2>
 <div class="custom-class" markdown="1">
 This is a div wrapping some Markdown plus.  Without the DIV attribute, it ignores the 
 block. 
 </div>
 
-<h2>Markdown plus tables</h2>
+<h2 id="markdown-plus-tables">Markdown plus tables</h2>
 <table>
 <thead>
 <tr>
 <th>Header</th>
 <th>Header</th>
-<th align="right">Right</th>
+<th style="text-align:right">Right</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Cell</td>
 <td>Cell</td>
-<td align="right">$10</td>
+<td style="text-align:right">$10</td>
 </tr>
 <tr>
 <td>Cell</td>
 <td>Cell</td>
-<td align="right">$20</td>
+<td style="text-align:right">$20</td>
 </tr>
 </tbody>
 </table>
@@ -103,7 +106,7 @@ block.
 <li>Outer pipes on tables are optional</li>
 <li>Colon used for alignment (right versus left)</li>
 </ul>
-<h2>Markdown plus definition lists</h2>
+<h2 id="markdown-plus-definition-lists">Markdown plus definition lists</h2>
 <p>Bottled water
 : $ 1.25
 : $ 1.55 (Large)</p>

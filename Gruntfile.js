@@ -23,11 +23,21 @@ module.exports = function(grunt) {
       }
     },
     assemble: {
-      options: data('options.json'),
+      options: {
+        flatten: true,
+        layout: 'src/layouts/default.hbs',
+        partials: ['src/partials/*.hbs'],
+        data: ['src/data/**/*.{json,yml}'],
+        assets: 'public',
+        ext: '.html'
+      },
       component: {
-        files: {
-          './': ['src/pages/*.hbs']
-        }
+        files: [
+          {
+            dest: './', 
+            src: ['src/pages/*.hbs']
+          }
+        ]
       }
     },
     watch: {
