@@ -40,12 +40,28 @@ module.exports = function(grunt) {
         ]
       }
     },
+
     watch: {
       blog: {
         files: 'src/**/*.*',
-        tasks: ['default']
+        tasks: ['default'],
+        options: {
+          spawn: false
+        }
+      }
+    },
+
+    hapi: {
+      local: {
+        options: {
+          server: require('path').resolve('./server'),
+          bases: {
+            '/': require('path').resolve('./')
+          }
+        }
       }
     }
+
   });
 
   grunt.config.set('bootstrap.base', './src/assets/bootstrap');
@@ -54,9 +70,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('assemble');
   grunt.loadNpmTasks('assemble-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-hapi');
 
   // Default task.
-  grunt.registerTask('default', ['assemble']);
+  grunt.registerTask('default', ['assemble', 'hapi']);
+
+  grunt.registerTask('dev', ['default', 'watch']);
 
 };
 

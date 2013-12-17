@@ -29,7 +29,9 @@
     "grunt-contrib-watch": "~0.2.0",
     "grunt": "~0.4.1",
     "assemble-less": "~0.5.3",
-    "assemble": "~0.4.33"
+    "assemble": "~0.4.33",
+    "grunt-hapi": "~0.6.0",
+    "hapi": "~1.20.0"
   },
   "keywords": [
     "node microsoft",
