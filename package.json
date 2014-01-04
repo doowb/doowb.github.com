@@ -50,6 +50,7 @@
     "windows azure nodejs"
   ],
   "dependencies": {
-    "async": "~0.2.9"
+    "async": "~0.2.9",
+    "event-stream": "~3.0.20"
   }
 }

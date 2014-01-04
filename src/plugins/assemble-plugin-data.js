@@ -8,10 +8,10 @@
  */
 
 var utils = require('assemble').utils;
+var es = require('event-stream');
+var fs = require('vinyl-fs');
 var async = require('async');
 var path = require('path');
-var glob = require('glob');
-var fs = require('fs');
 
 var options = {
   stages: [
@@ -20,42 +20,16 @@ var options = {
   ]
 };
 
-var expandFiles = function (patterns, done) {
-  async.concat(patterns, glob, done);
-};
-
-var readFile = function (file, done) {
-  var opts = {
-    encoding: 'utf8'
-  };
-  fs.readFile(file, opts, done);
-};
-
 var readJSON = function (file, done) {
-  readFile(file, function (err, data) {
-    if (err) {
-      done(err);
-    } else {
-      done(null, JSON.parse(data));
-    }
-  });
+  file.contents = JSON.parse(file.contents);
+  done(null, file);
 };
 
-var readFiles = function (files, done) {
-  var data = {};
-  async.each(
-    files,
-    function (file, done) {
-      var name = path.basename(file, path.extname(file));
-      readJSON(file, function (err, d) {
-        data[name] = d;
-        done();
-      });
-    },
-    function (err) {
-      done(err, data);
-    }
-  );
+var callbackStream = function (callback) {
+  return function end() {
+    this.emit('end');
+    callback();
+  };
 };
 
 var plugin = module.exports = function (assemble) {
@@ -68,33 +42,30 @@ var plugin = module.exports = function (assemble) {
 
       switch (params.stage) {
       case utils.plugins.stages.assembleBeforeData:
+
+        this.data = this.data || {};
+
+        var saveFile = function (file, done) {
+          var name = path.basename(file.path, path.extname(file.path));
+          this.data[name] = JSON.parse(file.contents);
+          done(null, file);
+        }.bind(this);
+
         var datafiles = [];
         async.series(
             [
 
               function (next) {
-              expandFiles(this.options.data, function (err, files) {
-                if (err) {
-                  next(err, null);
-                } else {
-                  datafiles = files;
-                  next();
-                }
-              });
-              }.bind(this),
-
-              function (next) {
-              readFiles(datafiles, function (err, data) {
-                this.data = data;
-                next(err);
-              }.bind(this));
+              fs.src(this.options.data)
+                .pipe(es.map(saveFile))
+                .pipe(es.through(null, callbackStream(next)))
               }.bind(this)
             ],
           done);
         break;
 
       case utils.plugins.stages.assembleAfterData:
-        console.log(this.data);
+        console.log('this.data', this.data);
         done();
         break;
       };
