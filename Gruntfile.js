@@ -1,6 +1,6 @@
 // Blog, by @doowb
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   'use strict';
 
@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    pkg:       data('package.json'),
+    pkg: data('package.json'),
     bootstrap: data('src/bootstrap.json'),
 
     less: {
@@ -32,9 +32,12 @@ module.exports = function(grunt) {
         ext: '.html'
       },
       component: {
+        options: {
+          plugins: ['src/plugins/**/*.js']
+        },
         files: [
           {
-            dest: './', 
+            dest: './',
             src: ['src/pages/*.hbs']
           }
         ]
@@ -78,4 +81,3 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', ['default', 'watch']);
 
 };
-
