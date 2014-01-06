@@ -7,6 +7,7 @@
  * Licensed under the MIT license.
  */
 
+var yfm = require('assemble-yaml');
 var es = require('event-stream');
 var fs = require('vinyl-fs');
 var async = require('async');
@@ -40,9 +41,17 @@ var plugin = module.exports = function (assemble) {
         this.partials = this.partials || {};
 
         var saveFile = function (file, done) {
-          var name = path.basename(file.path, path.extname(file.path));
-          this.partials[name] = {};
-          this.partials[name].raw = file.contents.toString();
+          this.partials[file.path] = {};
+          this.partials[file.path].name = path.basename(file.path, path.extname(file.path));
+          this.partials[file.path].raw = file.contents.toString();
+
+          var info = yfm.extract(this.partials[file.path].raw, {
+            fromFile: false
+          });
+
+          this.partials[file.path].metadata = info.context || {};
+          this.partials[file.path].content = info.content;
+
           done(null, file);
         }.bind(this);
 
@@ -59,7 +68,6 @@ var plugin = module.exports = function (assemble) {
         break;
 
       case assemble.utils.plugins.stages.assembleAfterPartials:
-        console.log('this.partials', this.partials);
         done();
         break;
       };

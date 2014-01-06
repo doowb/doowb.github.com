@@ -59,7 +59,6 @@ var plugin = module.exports = function (assemble) {
         break;
 
       case assemble.utils.plugins.stages.assembleAfterData:
-        console.log('this.data', this.data);
         done();
         break;
       };
