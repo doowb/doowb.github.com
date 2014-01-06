@@ -7,23 +7,10 @@
  * Licensed under the MIT license.
  */
 
-var utils = require('assemble').utils;
 var es = require('event-stream');
 var fs = require('vinyl-fs');
 var async = require('async');
 var path = require('path');
-
-var options = {
-  stages: [
-    utils.plugins.stages.assembleBeforeData,
-    utils.plugins.stages.assembleAfterData
-  ]
-};
-
-var readJSON = function (file, done) {
-  file.contents = JSON.parse(file.contents);
-  done(null, file);
-};
 
 var callbackStream = function (callback) {
   return function end() {
@@ -34,6 +21,13 @@ var callbackStream = function (callback) {
 
 var plugin = module.exports = function (assemble) {
 
+  var options = {
+    stages: [
+      assemble.utils.plugins.stages.assembleBeforeData,
+      assemble.utils.plugins.stages.assembleAfterData
+    ]
+  };
+
   assemble.registerPlugin(
     'assemble-plugin-data',
     'Do your data loading inside this plugin.',
@@ -41,7 +35,7 @@ var plugin = module.exports = function (assemble) {
     function (params, done) {
 
       switch (params.stage) {
-      case utils.plugins.stages.assembleBeforeData:
+      case assemble.utils.plugins.stages.assembleBeforeData:
 
         this.data = this.data || {};
 
@@ -64,7 +58,7 @@ var plugin = module.exports = function (assemble) {
           done);
         break;
 
-      case utils.plugins.stages.assembleAfterData:
+      case assemble.utils.plugins.stages.assembleAfterData:
         console.log('this.data', this.data);
         done();
         break;

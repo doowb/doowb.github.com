@@ -7,18 +7,10 @@
  * Licensed under the MIT license.
  */
 
-var utils = require('assemble').utils;
 var es = require('event-stream');
 var fs = require('vinyl-fs');
 var async = require('async');
 var path = require('path');
-
-var options = {
-  stages: [
-    utils.plugins.stages.assembleBeforePartials,
-    utils.plugins.stages.assembleAfterPartials
-  ]
-};
 
 var callbackStream = function (callback) {
   return function end() {
@@ -29,6 +21,13 @@ var callbackStream = function (callback) {
 
 var plugin = module.exports = function (assemble) {
 
+  var options = {
+    stages: [
+      assemble.utils.plugins.stages.assembleBeforePartials,
+      assemble.utils.plugins.stages.assembleAfterPartials
+    ]
+  };
+
   assemble.registerPlugin(
     'assemble-plugin-partials',
     'Load partials and save any yaml front matter.',
@@ -36,7 +35,7 @@ var plugin = module.exports = function (assemble) {
     function (params, done) {
 
       switch (params.stage) {
-      case utils.plugins.stages.assembleBeforePartials:
+      case assemble.utils.plugins.stages.assembleBeforePartials:
 
         this.partials = this.partials || {};
 
@@ -59,7 +58,7 @@ var plugin = module.exports = function (assemble) {
           done);
         break;
 
-      case utils.plugins.stages.assembleAfterPartials:
+      case assemble.utils.plugins.stages.assembleAfterPartials:
         console.log('this.partials', this.partials);
         done();
         break;
