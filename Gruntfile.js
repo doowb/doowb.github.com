@@ -33,7 +33,7 @@ module.exports = function (grunt) {
       },
       component: {
         options: {
-          plugins: ['src/plugins/**/*.js']
+          plugins: ['src/plugins/*.js']
         },
         files: [
           {

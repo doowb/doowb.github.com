@@ -7,17 +7,18 @@
  * Licensed under the MIT license.
  */
 
-var es = require('event-stream');
-var fs = require('vinyl-fs');
+//var es = require('event-stream');
+//var fs = require('vinyl-fs');
+var fs = require('./utils/file');
 var async = require('async');
 var path = require('path');
 
-var callbackStream = function (callback) {
-  return function end() {
-    this.emit('end');
-    callback();
-  };
-};
+// var callbackStream = function (callback) {
+//   return function end() {
+//     this.emit('end');
+//     callback();
+//   };
+// };
 
 var plugin = module.exports = function (assemble) {
 
@@ -39,22 +40,20 @@ var plugin = module.exports = function (assemble) {
 
         this.data = this.data || {};
 
-        var saveFile = function (file, done) {
-          var name = path.basename(file.path, path.extname(file.path));
-          this.data[name] = JSON.parse(file.contents);
-          done(null, file);
-        }.bind(this);
-
-        var datafiles = [];
         async.series(
-            [
+          [
 
-              function (next) {
-              fs.src(this.options.data)
-                .pipe(es.map(saveFile))
-                .pipe(es.through(null, callbackStream(next)))
-              }.bind(this)
-            ],
+            function (next) {
+              fs.read(
+                this.options.data,
+                function (file, nextFile) {
+                  var name = path.basename(file.src, path.extname(file.src));
+                  this.data[name] = JSON.parse(file.contents);
+                  nextFile(null);
+                }.bind(this),
+                next);
+            }.bind(this)
+          ],
           done);
         break;
 
