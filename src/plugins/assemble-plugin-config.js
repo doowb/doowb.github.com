@@ -7,13 +7,12 @@
  * Licensed under the MIT license.
  */
 
-var assemble = require('assemble');
-
-var options = {
-  stage: assemble.utils.plugins.stages.optionsBeforeConfiguration
-};
 
 var plugin = module.exports = function (assemble) {
+
+  var options = {
+    stage: assemble.utils.plugins.stages.optionsBeforeConfiguration
+  };
 
   assemble.registerPlugin(
     'assemble-plugin-config',

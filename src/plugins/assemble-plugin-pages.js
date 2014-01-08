@@ -64,7 +64,7 @@ var plugin = module.exports = function (assemble) {
         break;
 
       case assemble.utils.plugins.stages.assembleAfterPages:
-        console.log(require('util').inspect(this.components));
+        //console.log(require('util').inspect(this.components));
         done();
         break;
       };

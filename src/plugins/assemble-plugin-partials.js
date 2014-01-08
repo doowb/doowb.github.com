@@ -8,17 +8,9 @@
  */
 
 var yfm = require('assemble-yaml');
-var es = require('event-stream');
-var fs = require('vinyl-fs');
+var fs = require('./utils/file');
 var async = require('async');
 var path = require('path');
-
-var callbackStream = function (callback) {
-  return function end() {
-    this.emit('end');
-    callback();
-  };
-};
 
 var plugin = module.exports = function (assemble) {
 
@@ -41,16 +33,16 @@ var plugin = module.exports = function (assemble) {
         this.partials = this.partials || {};
 
         var saveFile = function (file, done) {
-          this.partials[file.path] = {};
-          this.partials[file.path].name = path.basename(file.path, path.extname(file.path));
-          this.partials[file.path].raw = file.contents.toString();
+          this.partials[file.src] = {};
+          this.partials[file.src].name = path.basename(file.src, path.extname(file.src));
+          this.partials[file.src].raw = file.contents.toString();
 
-          var info = yfm.extract(this.partials[file.path].raw, {
+          var info = yfm.extract(this.partials[file.src].raw, {
             fromFile: false
           });
 
-          this.partials[file.path].metadata = info.context || {};
-          this.partials[file.path].content = info.content;
+          this.partials[file.src].metadata = info.context || {};
+          this.partials[file.src].content = info.content;
 
           done(null, file);
         }.bind(this);
@@ -59,15 +51,17 @@ var plugin = module.exports = function (assemble) {
             [
 
               function (next) {
-              fs.src(this.options.partials)
-                .pipe(es.map(saveFile))
-                .pipe(es.through(null, callbackStream(next)))
+                fs.map(
+                  this.options.partials, {},
+                  saveFile,
+                  next);
               }.bind(this)
             ],
           done);
         break;
 
       case assemble.utils.plugins.stages.assembleAfterPartials:
+        //console.log(require('util').inspect(this.partials));
         done();
         break;
       };

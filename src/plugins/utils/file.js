@@ -13,6 +13,7 @@ var fs = require('fs');
 var file = module.exports = {};
 
 file.map = function (src, options, iterator, done) {
+  var self = this;
   var srcList = src;
   if (_.isArray(src) && src.length > 0 && _.isObject(src[0])) {
     srcList = src.map(function (fp) {
@@ -30,16 +31,16 @@ file.map = function (src, options, iterator, done) {
     if (_.isArray(file.src)) {
       file.src = file.src[0];
     }
-    var contents = fs.readFileSync(file.src, {
-      encoding: 'utf8'
-    });
 
-    if (contents.charCodeAt(0) === 0xFEFF) {
-      contents = contents.substring(1);
-    }
+    self.read(
+      file.src,
+      function(f, n) {
+        file.contents = f.contents;
+        iterator(file, n);
+      }, 
+      next
+    );
 
-    file.contents = contents;
-    iterator(file, next);
   }, done);
 };
 
