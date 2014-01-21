@@ -70,7 +70,7 @@ module.exports = function (grunt) {
   grunt.config.set('bootstrap.base', './src/assets/bootstrap');
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('assemble');
+  grunt.loadNpmTasks('grunt-assemble');
   grunt.loadNpmTasks('assemble-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-hapi');

@@ -29,7 +29,6 @@
     "grunt-contrib-watch": "~0.2.0",
     "grunt": "~0.4.1",
     "assemble-less": "~0.5.3",
-    "assemble": "~0.4.33",
     "grunt-hapi": "~0.6.0",
     "hapi": "~1.20.0",
     "async": "~0.2.9",
@@ -37,7 +36,8 @@
     "assemble-yaml": "~0.2.1",
     "globule": "~0.1.0",
     "iconv-lite": "~0.2.11",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "grunt-assemble": "~0.1.0"
   },
   "keywords": [
     "node microsoft",
