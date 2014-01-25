@@ -29,11 +29,14 @@ module.exports = function (grunt) {
         partials: ['src/partials/*.hbs'],
         data: ['src/data/**/*.{json,yml}'],
         assets: 'public',
-        ext: '.html'
+        ext: '.html',
+        log: {
+          level: 'debug'
+        }
       },
       component: {
         options: {
-          plugins: ['src/plugins/*.js']
+          plugins: ['src/plugins/plugin-*.js']
         },
         files: [
           {
