@@ -11,7 +11,7 @@
 var plugin = module.exports = function (assemble) {
 
   var options = {
-    stage: assemble.utils.plugins.stages.optionsBeforeConfiguration
+    event: assemble.utils.plugins.events.optionsBeforeConfiguration
   };
 
   assemble.registerPlugin(

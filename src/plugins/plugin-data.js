@@ -12,9 +12,9 @@ var inspect = require('util').inspect;
 var plugin = module.exports = function (assemble) {
 
   var options = {
-    stages: [
-      assemble.config.plugins.stages.assembleBeforeData,
-      assemble.config.plugins.stages.assembleAfterData
+    events: [
+      assemble.config.plugins.events.assembleBeforeData,
+      assemble.config.plugins.events.assembleAfterData
     ]
   };
 
@@ -24,12 +24,12 @@ var plugin = module.exports = function (assemble) {
     options,
     function (params, done) {
 
-      switch (params.stage) {
-      case assemble.config.plugins.stages.assembleBeforeData:
+      switch (params.event) {
+      case assemble.config.plugins.events.assembleBeforeData:
         assemble.log.debug('BEFORE', inspect(this.data));
         break;
 
-      case assemble.config.plugins.stages.assembleAfterData:
+      case assemble.config.plugins.events.assembleAfterData:
         assemble.log.debug('AFTER', inspect(this.data));
         break;
       };

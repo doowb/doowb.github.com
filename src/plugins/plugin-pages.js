@@ -12,7 +12,7 @@ var inspect = require('util').inspect;
 var plugin = module.exports = function (assemble) {
 
   var options = {
-    stages: [
+    events: [
       'assemble:*:pages',
       'assemble:*:page'
     ]
@@ -24,21 +24,21 @@ var plugin = module.exports = function (assemble) {
     options,
     function (params, done) {
 
-      switch (params.stage) {
-      case assemble.config.plugins.stages.assembleBeforePages:
+      switch (params.event) {
+      case assemble.config.plugins.events.assembleBeforePages:
         assemble.log.debug('BEFORE PAGES', inspect(this.pages));
         assemble.log.debug('BEFORE PAGES::FILES', inspect(this.options.files));
         break;
 
-      case assemble.config.plugins.stages.assembleAfterPages:
+      case assemble.config.plugins.events.assembleAfterPages:
         assemble.log.debug('AFTER PAGES', inspect(this.pages));
         break;
 
-      case assemble.config.plugins.stages.assembleBeforePage:
+      case assemble.config.plugins.events.assembleBeforePage:
         assemble.log.debug('BEFORE PAGE', inspect(this.pages));
         break;
 
-      case assemble.config.plugins.stages.assembleAfterPage:
+      case assemble.config.plugins.events.assembleAfterPage:
         assemble.log.debug('AFTER PAGE', inspect(this.pages));
         break;
 

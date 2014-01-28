@@ -23,9 +23,9 @@ var path = require('path');
 var plugin = module.exports = function (assemble) {
 
   var options = {
-    stages: [
-      assemble.utils.plugins.stages.assembleBeforeData,
-      assemble.utils.plugins.stages.assembleAfterData
+    events: [
+      assemble.utils.plugins.events.assembleBeforeData,
+      assemble.utils.plugins.events.assembleAfterData
     ]
   };
 
@@ -35,8 +35,8 @@ var plugin = module.exports = function (assemble) {
     options,
     function (params, done) {
 
-      switch (params.stage) {
-      case assemble.utils.plugins.stages.assembleBeforeData:
+      switch (params.event) {
+      case assemble.utils.plugins.events.assembleBeforeData:
 
         this.data = this.data || {};
 
@@ -57,7 +57,7 @@ var plugin = module.exports = function (assemble) {
           done);
         break;
 
-      case assemble.utils.plugins.stages.assembleAfterData:
+      case assemble.utils.plugins.events.assembleAfterData:
         done();
         break;
       };

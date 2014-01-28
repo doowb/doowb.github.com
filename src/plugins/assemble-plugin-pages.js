@@ -15,9 +15,9 @@ var path = require('path');
 var plugin = module.exports = function (assemble) {
 
   var options = {
-    stages: [
-      assemble.utils.plugins.stages.assembleBeforePages,
-      assemble.utils.plugins.stages.assembleAfterPages
+    events: [
+      assemble.utils.plugins.events.assembleBeforePages,
+      assemble.utils.plugins.events.assembleAfterPages
     ]
   };
 
@@ -27,8 +27,8 @@ var plugin = module.exports = function (assemble) {
     options,
     function (params, done) {
 
-      switch (params.stage) {
-      case assemble.utils.plugins.stages.assembleBeforePages:
+      switch (params.event) {
+      case assemble.utils.plugins.events.assembleBeforePages:
 
         this.components = this.components || {};
 
@@ -63,7 +63,7 @@ var plugin = module.exports = function (assemble) {
 
         break;
 
-      case assemble.utils.plugins.stages.assembleAfterPages:
+      case assemble.utils.plugins.events.assembleAfterPages:
         //console.log(require('util').inspect(this.components));
         done();
         break;

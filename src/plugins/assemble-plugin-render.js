@@ -14,9 +14,9 @@ var fs = require('fs');
 var plugin = module.exports = function (assemble) {
 
   var options = {
-    stages: [
-      assemble.utils.plugins.stages.renderBeforePages,
-      assemble.utils.plugins.stages.renderAfterPages
+    events: [
+      assemble.utils.plugins.events.renderBeforePages,
+      assemble.utils.plugins.events.renderAfterPages
     ]
   };
 
@@ -26,8 +26,8 @@ var plugin = module.exports = function (assemble) {
     options,
     function (params, done) {
 
-      switch (params.stage) {
-      case assemble.utils.plugins.stages.renderBeforePages:
+      switch (params.event) {
+      case assemble.utils.plugins.events.renderBeforePages:
 
         async.series(
           [
@@ -44,7 +44,7 @@ var plugin = module.exports = function (assemble) {
 
         break;
 
-      case assemble.utils.plugins.stages.renderAfterPages:
+      case assemble.utils.plugins.events.renderAfterPages:
 
         async.each(_.keys(this.components), function (key, next) {
             var component = this.components[key];
