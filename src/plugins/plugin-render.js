@@ -26,19 +26,19 @@ var plugin = module.exports = function (assemble) {
 
       switch (params.event) {
       case assemble.config.plugins.events.renderBeforePages:
-        assemble.log.debug('BEFORE RENDER PAGES');
+        assemble.log.debug('Do something before the pages are rendered.');
         break;
 
       case assemble.config.plugins.events.renderAfterPages:
-        assemble.log.debug('AFTER RENDER PAGES');
+        assemble.log.debug('Do something after all the pages are rendered.');
         break;
 
       case assemble.config.plugins.events.renderBeforePage:
-        assemble.log.debug('BEFORE RENDER PAGE');
+        assemble.log.debug('Do something before each page is rendered.', params.page.src);
         break;
 
       case assemble.config.plugins.events.renderAfterPage:
-        assemble.log.debug('AFTER RENDER PAGE');
+        assemble.log.debug('Do something after each page is rendered.', params.page.dest);
         break;
 
 

@@ -8,6 +8,7 @@
  */
 
 var inspect = require('util').inspect;
+var _ = require('lodash');
 
 var plugin = module.exports = function (assemble) {
 
@@ -26,20 +27,19 @@ var plugin = module.exports = function (assemble) {
 
       switch (params.event) {
       case assemble.config.plugins.events.assembleBeforePages:
-        assemble.log.debug('BEFORE PAGES', inspect(this.pages));
-        assemble.log.debug('BEFORE PAGES::FILES', inspect(this.options.files));
+        assemble.log.debug('Do something before all the pages are loaded.', (this.pages && _.keys(this.pages).length) || 0);
         break;
 
       case assemble.config.plugins.events.assembleAfterPages:
-        assemble.log.debug('AFTER PAGES', inspect(this.pages));
+        assemble.log.debug('Do something after all the pages are loaded.', _.keys(this.pages).length);
         break;
 
       case assemble.config.plugins.events.assembleBeforePage:
-        assemble.log.debug('BEFORE PAGE', inspect(this.pages));
+        assemble.log.debug('Do something before each page is loaded.', params.page.src);
         break;
 
       case assemble.config.plugins.events.assembleAfterPage:
-        assemble.log.debug('AFTER PAGE', inspect(this.pages));
+        assemble.log.debug('Do something after the page is loaded.', params.page.dest);
         break;
 
 
