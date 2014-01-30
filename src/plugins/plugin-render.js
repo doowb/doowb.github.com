@@ -35,6 +35,7 @@ var plugin = module.exports = function (assemble) {
 
       case assemble.config.plugins.events.renderBeforePage:
         assemble.log.debug('Do something before each page is rendered.', params.page.src);
+        assemble.log.debug('context', inspect(params.context));
         break;
 
       case assemble.config.plugins.events.renderAfterPage:

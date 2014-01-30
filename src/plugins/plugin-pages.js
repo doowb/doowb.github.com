@@ -8,6 +8,7 @@
  */
 
 var inspect = require('util').inspect;
+var file = require('fs-utils');
 var _ = require('lodash');
 
 var plugin = module.exports = function (assemble) {

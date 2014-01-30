@@ -31,7 +31,8 @@ module.exports = function (grunt) {
         assets: 'public',
         ext: '.html',
         log: {
-          level: 'debug'
+          level: 'debug',
+          theme: 'socket.io'
         }
       },
       component: {
@@ -62,7 +63,9 @@ module.exports = function (grunt) {
         options: {
           server: require('path').resolve('./server'),
           bases: {
-            '/': require('path').resolve('./')
+            '/': require('path').resolve('./'),
+            '/css': require('path').resolve('./public/css'),
+            '/js': require('path').resolve('./public/js')
           }
         }
       }
