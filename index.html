@@ -24,135 +24,98 @@
   <p class="lead">Listen to me! I have shit to say!</p>
 </div>
 
-<p>There has been a lot of hype around using <a href="https://www.firebase.com/">Firebase</a> and <a href="http://angularjs.org/">Angular.js</a> to create realtime applications. These applications are great at keeping the application&#39;s state in sync between clients and providing a full realtime document database simliar to <a href="http://www.mongodb.org/">MongoDB</a> and <a href="http://couchdb.apache.org/">CouchDB</a>. What if you already have an Angular.js application, your data is already stored in MongoDB, and you just want to notify connected clients that something on the server has changed? This is where <a href="http://pusher.com/">Pusher</a> and <a href="https://github.com/doowb/angular-pusher">angular-pusher</a> come into play.</p>
-<h2 id="angular-js">Angular.js</h2>
-<p>Angular.js is a client side JavaScript framework built by Google. It provides the framework for building either small components that can be plugged in to your website or entire single page applications. At the core of Angular.js is a module system that allows creating providers, services, factories, and directives. All of these are used within controllers to create, retrieve, update, and delete data while providing nice features for manipulating the HTML DOM with little custom JavaScript code.</p>
-<p>In a simple Angular.js application, data is retrieved and sent to and from a backend server through an <code>$http</code> or <code>$resource</code> service provided by the framework. Below is an example of retrieving a list of items from an API and updating the selected item using the <code>$http</code> service.</p>
-<pre><code class="language-javascript"><span class="keyword">var</span> ItemListController = <span class="function"><span class="keyword">function</span> <span class="params">($scope, $http)</span> {</span>
-  <span class="comment">// initialize a list of items on the scope</span>
-  $scope.items = [];
+<h1 id="header-1">Header 1</h1>
+<h2 id="header-2">Header 2</h2>
+<h3 id="header-3-hashes-on-right-are-optional-">Header 3 ###             (Hashes on right are optional)</h3>
+<h4 id="header-4">Header 4</h4>
+<h5 id="header-5">Header 5</h5>
+<h2 id="markdown-plus-h2-with-a-custom-id-id-goes-here-">Markdown plus h2 with a custom ID ##         {#id-goes-here}</h2>
+<p><a href="#id-goes-here">Link back to H2</a></p>
+<p>This is a paragraph, which is text surrounded by whitespace. Paragraphs can be on one 
+line (or many), and can drone on for hours.  </p>
+<p>Here is a Markdown link to <a href="http://warpedvisions.org">Warped</a>, and a literal . 
+Now some SimpleLinks, like one to [google] (automagically links to are-you-
+feeling-lucky), a [wiki: test] link to a Wikipedia page, and a link to 
+[foldoc: CPU]s at foldoc.  </p>
+<p>Now some inline markup like <em>italics</em>,  <strong>bold</strong>, and <code>code()</code>. Note that underscores in 
+words are ignored in Markdown Extra.</p>
+<p><img src="/images/photo.jpeg" alt="picture alt" title="Title is optional">     </p>
+<blockquote>
+<p>Blockquotes are like quoted text in email replies</p>
+<blockquote>
+<p>And, they can be nested</p>
+</blockquote>
+</blockquote>
+<ul>
+<li>Bullet lists are easy too</li>
+</ul>
+<ul>
+<li>Another one</li>
+</ul>
+<ul>
+<li>Another one</li>
+</ul>
+<ol>
+<li>A numbered list</li>
+<li>Which is numbered</li>
+<li>With periods and a space</li>
+</ol>
+<p>And now some code:</p>
+<pre><code>// Code is just text indented a bit
+which(is_easy) to_remember();</code></pre>
+<pre><code>
+// Markdown extra adds un-indented code blocks too
 
-  <span class="keyword">var</span> retrieveItems = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    <span class="comment">// get a list of items from the api located at '/api/items'</span>
-    $http.get(<span class="string">'/api/items'</span>)
-        .success(<span class="function"><span class="keyword">function</span> <span class="params">(items)</span> {</span>
-          $scope.items = items;
-        });
-  };
-
-  $scope.updateItem = <span class="function"><span class="keyword">function</span> <span class="params">(item)</span> {</span>
-    $http.post(<span class="string">'/api/items'</span>, item);
-  };
-
-  <span class="comment">// load the items</span>
-  retrieveItems();
-};</code></pre>
-<pre><code class="language-html">&lt;div ng-controller=&#39;ItemListController&#39;&gt;
-    &lt;h1&gt;Items&lt;/h1&gt;
-    &lt;table&gt;
-      &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Qty&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;
-      &lt;tr ng-repeat=&quot;item in items&quot;&gt;
-        &lt;td&gt;&lt;input type=&quot;text&quot; ng-model=&quot;item.name&quot;&gt;&lt;/td&gt;
-        &lt;td&gt;&lt;input type=&quot;text&quot; ng-model=&quot;item.qty&quot;&gt;&lt;/td&gt;
-        &lt;td&gt;&lt;button type=&quot;button&quot; ng-click=&quot;updateItem(item)&quot;&gt;Update&lt;/button&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/div&gt;</code></pre>
-<p>If we needed to know when items have been updated on the server by another user, we would have to constantly poll the server to find out if the <code>items</code> array changed.</p>
-<pre><code class="language-javascript"><span class="keyword">var</span> ItemListController = <span class="function"><span class="keyword">function</span> <span class="params">($scope, $http, $timeout)</span> {</span>
-
-  $scope.items = [];
-
-  <span class="keyword">var</span> retrieveItems = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    <span class="comment">// get a list of items from the api located at '/api/items'</span>
-    $http.get(<span class="string">'/api/items'</span>)
-        .success(<span class="function"><span class="keyword">function</span> <span class="params">(items)</span> {</span>
-          $scope.items = items;
-
-          <span class="comment">// check for item changes</span>
-          $timeout(retrieveItems, <span class="number">5000</span>);
-        });
-  };
-
-  ...
-};</code></pre>
-<p>As you can see, we just update the <code>items</code> array every five seconds which isn&#39;t something that we want to keep doing. If a user is making a lot of changes, then we don&#39;t want to keep overwriting the <code>items</code> array. You could build the logic to only update changed items, but you still have the issue of polling the server every five seconds. It would be much nicer if we could subscribe to an event and wait for a notification of changes in realtime.</p>
-<h2 id="making-angular-js-realtime-with-pusher">Making Angular.js realtime with Pusher</h2>
-<p>Using Pusher will allow us to subscribe to events triggered by other clients. First I&#39;ll show you the simple changes needed in our <code>ItemLIstController</code> to use angular-pusher. Then I&#39;ll show you an example of using Pusher in a Node.js server when an item is updated.</p>
-<p>First, we need tell our Angular.js application to use angular-pusher. You can do this by either downloading the <a href="https://github.com/doowb/angular-pusher/blob/master/angular-pusher.js">development</a> or <a href="https://github.com/doowb/angular-pusher/blob/master/angular-pusher.min.js">production</a> files from <a href="https://github.com/doowb/angular-pusher/blob/master">GitHub</a> or using <code>bower install angular-pusher</code> and loading them into your page with the following script tag:</p>
-<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; src=&quot;bower_components/angular-pusher/angular-pusher.min.js&quot;&gt;&lt;/script&gt;</code></pre>
-<p>This should be loaded after the <code>angular.min.js</code> file and before your <code>application.js</code> script.</p>
-<p>Now we can tell our application that we want to use the services provided in <code>angular-pusher.min.js</code>.</p>
-<pre><code class="language-javascript">angular.module(<span class="string">'myApp'</span>, [<span class="string">'doowb.angular-pusher'</span>]).
-
-config([<span class="string">'PusherServiceProvider'</span>,
-    <span class="function"><span class="keyword">function</span><span class="params">(PusherServiceProvider)</span> {</span>
-        PusherServiceProvider
-            .setToken(<span class="string">'d420162e600c57b0e60f'</span>)
-            .setOptions({});
-    }
-]);</code></pre>
-<p>The angular-pusher module has a <code>PusherServiceProvider</code> that can be configured when creating your application. Here is where you can set your Pusher application key (<code>PusherServiceProvider.setToken(&#39;token&#39;)</code>), additional Pusher options (<code>PusherServiceProvider.setOptions(options)</code>), and a specific version of Pusher (<code>PusherServiceProvider.setPusherUrl(url)</code>). The Pusher url has a default, but it may be an older version.</p>
-<p>Now we can use Pusher in our controller to subscribe to events and be notified when our <code>items</code> array changes:</p>
-<pre><code class="language-javascript"><span class="keyword">var</span> ItemListController = <span class="function"><span class="keyword">function</span><span class="params">($scope, $http, Pusher)</span> {</span>
-    $scope.items = [];
-
-    Pusher.subscribe(<span class="string">'items'</span>, <span class="string">'updated'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(item)</span> {</span>
-    <span class="comment">// an item was updated. find it in our list and update it.</span>
-        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; $scope.items.length; i++) {
-            <span class="keyword">if</span> ($scope.items[i].id === item.id) {
-                $scope.items[i] = item;
-                <span class="keyword">break</span>;
-            }
-        }
-    });
-
-  <span class="keyword">var</span> retrieveItems = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    <span class="comment">// get a list of items from the api located at '/api/items'</span>
-    console.log(<span class="string">'getting items'</span>);
-    $http.get(<span class="string">'/api/items'</span>)
-        .success(<span class="function"><span class="keyword">function</span> <span class="params">(items)</span> {</span>
-          $scope.items = items;
-      });
-  };
-
-  $scope.updateItem = <span class="function"><span class="keyword">function</span> <span class="params">(item)</span> {</span>
-      console.log(<span class="string">'updating item'</span>);
-    $http.post(<span class="string">'/api/items'</span>, item);
-  };
-
-  <span class="comment">// load the items</span>
-  retrieveItems();
+if (this_is_more_code == true &amp;&amp; !indented) {
+    // tild wrapped code blocks, also not indented
 }</code></pre>
-<p>In the Node.js server, we setup our connection to Pusher with a few lines of code. It only takes one more line of code to trigger the actual update notification:</p>
-<pre><code class="language-javascript"><span class="comment">// setup Pusher</span>
-<span class="keyword">var</span> Pusher = require(<span class="string">'pusher'</span>);
-<span class="keyword">var</span> pusher = <span class="keyword">new</span> Pusher({
-  appId: <span class="string">'12345'</span>,
-  key: <span class="string">'some key'</span>,
-  secret: <span class="string">'my secret... shhh!!!'</span>
-});
+<p>Text with<br>two trailing spaces<br>(on the right)<br>can be used<br>for things like poems  </p>
+<h3 id="horizontal-rules">Horizontal rules</h3>
+<hr>
+<h2 id="-"><em>**</em></h2>
+<div class="custom-class" markdown="1">
+This is a div wrapping some Markdown plus.  Without the DIV attribute, it ignores the 
+block. 
+</div>
 
-<span class="comment">// in our express server</span>
-<span class="comment">// setup a post route and trigger the change in Pusher</span>
-app.post(<span class="string">'/api/items'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-
-  <span class="comment">// get our item from the req and update the item collection</span>
-  <span class="comment">// in a production application this would have validation and items</span>
-  <span class="comment">// would be stored in a database.</span>
-  <span class="keyword">var</span> item = req.body;
-  items[item.id] = item;
-
-  <span class="comment">// tell Pusher to trigger an 'updated' event on the 'items' channel</span>
-  <span class="comment">// add pass the changed item to the event</span>
-  pusher.trigger(<span class="string">'items'</span>, <span class="string">'updated'</span>, item);
-
-  <span class="comment">// respond with the changed item</span>
-  res.json(item);
-});</code></pre>
-<h2 id="get-pushing">Get Pushing</h2>
-<p>All of this code can be found <a href="https://github.com/doowb/angular-pusher">here on GitHub</a>. The <a href="https://github.com/doowb/angular-pusher/tree/gh-pages"><code>gh-pages</code> branch</a> contains the examples that these code snippets came from. The application itself can be <a href="http://doowb.github.io/angular-pusher">found here</a>, but the server side examples won&#39;t work when hosted on <a href="http://pages.github.com/">GitHub Pages</a>.</p>
-<p>Hopefully this article and the code samples are enough to get your Angular.js application working with Pusher.</p>
+<h2 id="markdown-plus-tables">Markdown plus tables</h2>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Header</th>
+<th style="text-align:right">Right</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cell</td>
+<td>Cell</td>
+<td style="text-align:right">$10</td>
+</tr>
+<tr>
+<td>Cell</td>
+<td>Cell</td>
+<td style="text-align:right">$20</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Outer pipes on tables are optional</li>
+<li>Colon used for alignment (right versus left)</li>
+</ul>
+<h2 id="markdown-plus-definition-lists">Markdown plus definition lists</h2>
+<p>Bottled water
+: $ 1.25
+: $ 1.55 (Large)</p>
+<p>Milk
+Pop
+: $ 1.75</p>
+<ul>
+<li>Multiple definitions and terms are possible</li>
+<li>Definitions can include multiple paragraphs too</li>
+</ul>
+<p>*[ABBR]: Markdown plus abbreviations (produces an <abbr> tag)</p>
 
 
 
