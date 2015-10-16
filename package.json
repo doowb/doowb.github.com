@@ -57,5 +57,17 @@
     "async": "~0.2.9",
     "event-stream": "~3.0.20",
     "fs-utils": "~0.1.11"
-  }
+  },
+  "contributors": [
+    {
+      "name": "Brian Woodward",
+      "email": "brian.woodward@gmail.com",
+      "url": "https://github.com/doowb"
+    },
+    {
+      "name": "Jon Schlinkert",
+      "email": "github@sellside.com",
+      "url": "https://github.com/jonschlinkert"
+    }
+  ]
 }
