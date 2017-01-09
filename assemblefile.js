@@ -3,23 +3,46 @@
 var helpers = require('handlebars-helpers')();
 var extname = require('gulp-extname');
 var assemble = require('assemble');
+var less = require('gulp-less');
+var path = require('path');
 var app = assemble();
 
 // helpers
 app.helpers(helpers);
 app.helper('md', helpers.md.sync);
 
+app.helper('reverse', function(arr) {
+  arr.reverse();
+  return arr;
+});
+
 // options
 app.option('layout', 'default');
 
 // data
-app.data('assets', '/public');
+app.data('assets', 'public');
+
+// custom view collections
+app.create('posts');
+
+// middleware
+app.onLoad(/(pages|posts)\/.*\.(hbs|md)$/, function(view, next) {
+  var dest = view.data.dest || `${view.stem}.html`;
+  view.dest = dest;
+
+  view.data.filename = view.filename;
+  view.data.basename = view.basename;
+  view.data.stem = view.stem;
+
+  next();
+});
 
 // tasks
 app.task('load', function(cb) {
   app.layouts('src/layouts/*.hbs');
   app.partials('src/partials/*.hbs');
   app.pages('src/pages/*.hbs');
+  app.posts('src/posts/*.md');
   app.data('src/data/*.json', {namespace: true});
   if (app.cache.data.data) {
     app.data(app.cache.data.data);
@@ -28,11 +51,22 @@ app.task('load', function(cb) {
   cb();
 });
 
-app.task('build', ['load'], function() {
+app.task('less', function () {
+  return app.src('src/styles/**/*.less')
+    .pipe(less({paths: ['src/assets/bootstrap']}))
+    .pipe(app.dest('_gh_pages/public/css'));
+});
+
+app.task('build', ['load', 'less'], function() {
   return app.toStream('pages')
     .pipe(app.renderFile())
     .pipe(extname())
-    .pipe(app.dest('_gh_pages'));
+    .pipe(app.dest(function(file) {
+      if (file.dest) {
+        file.path = path.join(file.base, file.dest);
+      }
+      return '_gh_pages';
+    }));
 });
 
 app.task('default', ['build']);
