@@ -3,10 +3,9 @@
         <div class="container">
           <ul class="nav">
             {{#pages~}}{{#each items as |item|}}
-            <li><a href="{{lowercase item.filename}}">{{item.basename}}</a></li>
+            <li{{#is item.stem ../../stem}} class="active"{{/is}}><a href="{{lowercase item.dest}}">{{get item.stem @root.menu}}</a></li>
             {{/each}}{{~/pages}}
           </ul>
-          <ul class="nav"><li><a href="{{ assemble.repo }}">Visit Assemble</a></li></ul>
         </div>
       </div>
     </div>
