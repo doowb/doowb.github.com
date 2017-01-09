@@ -25,7 +25,6 @@ app.task('load', function(cb) {
     app.data(app.cache.data.data);
     delete app.cache.data.data;
   }
-  console.log(app.cache.data);
   cb();
 });
 
