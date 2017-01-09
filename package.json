@@ -25,19 +25,22 @@
     "node": ">= 0.8.0"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-watch": "~0.2.0",
-    "grunt": "~0.4.1",
+    "assemble": "^0.17.1",
     "assemble-less": "~0.5.3",
-    "grunt-hapi": "~0.6.0",
-    "hapi": "~2.1.0",
+    "assemble-yaml": "~0.2.1",
     "async": "~0.2.9",
     "glob": "~3.2.7",
-    "assemble-yaml": "~0.2.1",
     "globule": "~0.1.0",
+    "grunt": "~0.4.1",
+    "grunt-assemble": "~0.1.0",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt-hapi": "~0.6.0",
+    "gulp-extname": "^0.2.2",
+    "handlebars-helpers": "^0.7.7",
+    "hapi": "~2.1.0",
     "iconv-lite": "~0.2.11",
-    "lodash": "~2.4.1",
-    "grunt-assemble": "~0.1.0"
+    "lodash": "~2.4.1"
   },
   "keywords": [
     "node microsoft",

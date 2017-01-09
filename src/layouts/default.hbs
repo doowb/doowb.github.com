@@ -8,7 +8,7 @@
     {{> nav }}
 
     <div class="container">
-      {{> body }}
+      {% body %}
     </div>
     {{#each scripts}}<script src="{{../assets}}/js/{{.}}"></script>{{/each}}
   </body>
