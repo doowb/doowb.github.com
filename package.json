@@ -2,9 +2,9 @@
   "name": "Blog",
   "description": "THE Blog.",
   "version": "0.1.0",
-  "homepage": "https://doowb.github.com/",
+  "homepage": "https://doowb.github.io/",
   "author": "Brian Woodward (http://github.com/doowb)",
-  "repository": "doowb/Blog",
+  "repository": "doowb/doowb.github.com",
   "bugs": {
     "url": "https://github.com/doowb/doowb.github.com/issues"
   },
