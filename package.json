@@ -34,6 +34,7 @@
     "grunt-contrib-watch": "~0.2.0",
     "grunt-hapi": "~0.6.0",
     "gulp-extname": "^0.2.2",
+    "gulp-less": "^3.3.0",
     "handlebars-helpers": "^0.7.7",
     "hapi": "~2.1.0",
     "iconv-lite": "~0.2.11",
