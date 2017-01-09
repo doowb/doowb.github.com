@@ -1,12 +1,22 @@
 ---
-title: Blog
-lead: Listen to me! I have shit to say!
-content: src/posts/post.md
+title: doowb's blog
+lead: Notes, posts, todos, and other things that I think of.
 ---
 <div class="page-header">
   <h1>{{ title }}</h1>
   <p class="lead">{{ lead }}</p>
 </div>
 
-{{{md content}}}
-
+<div class="container">
+  {{#posts}}
+  {{#each (reverse (sortBy items "data.date")) as |item|}}
+  <div class="row">
+    <h2>{{item.data.title}}</h2>
+    <div>
+      {{markdown item.content}}
+    </div>
+    <hr>
+  </div>
+  {{/each}}
+  {{/posts}}
+</div>
