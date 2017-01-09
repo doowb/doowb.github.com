@@ -2,8 +2,9 @@
       <div class="navbar-inner">
         <div class="container">
           <ul class="nav">
-            {{#pages}}<li><a href="{{lowercase filename}}">{{basename}}</a></li>
-            {{/pages}}
+            {{#pages~}}{{#each items as |item|}}
+            <li><a href="{{lowercase item.filename}}">{{item.basename}}</a></li>
+            {{/each}}{{~/pages}}
           </ul>
           <ul class="nav"><li><a href="{{ assemble.repo }}">Visit Assemble</a></li></ul>
         </div>

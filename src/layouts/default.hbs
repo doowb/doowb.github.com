@@ -2,7 +2,9 @@
 <html>
   <head>
     <title>{{ title }}</title>
-    {{#each stylesheets}}<link rel="stylesheet" href="{{../assets}}/css/{{.}}">{{/each}}
+    {{#each stylesheets}}
+    <link rel="stylesheet" href="{{@root.assets}}/css/{{.}}">
+    {{/each}}
   </head>
   <body>
     {{> nav }}
@@ -10,7 +12,7 @@
     <div class="container">
       {% body %}
     </div>
-    {{#each scripts}}<script src="{{../assets}}/js/{{.}}"></script>{{/each}}
+    {{#each scripts}}<script src="{{@root.assets}}/js/{{.}}"></script>{{/each}}
   </body>
 </html>
 
