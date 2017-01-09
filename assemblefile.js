@@ -25,10 +25,7 @@ app.task('build', ['load'], function() {
   return app.toStream('pages')
     .pipe(app.renderFile())
     .pipe(extname())
-    .pipe(app.dest(function(file) {
-      console.log(file.path, file.relative, file.base);
-      return 'dist';
-    }));
+    .pipe(app.dest('_gh_pages'));
 });
 
 app.task('default', ['build']);
