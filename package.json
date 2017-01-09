@@ -3,26 +3,23 @@
   "description": "THE Blog.",
   "version": "0.1.0",
   "homepage": "https://doowb.github.com/",
-  "author": {
-    "name": "Brian Woodward",
-    "url": "http://github.com/doowb/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/doowb/doowb.github.com.git"
-  },
+  "author": "Brian Woodward (http://github.com/doowb)",
+  "repository": "doowb/Blog",
   "bugs": {
     "url": "https://github.com/doowb/doowb.github.com/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://doowb.github.com//blob/master/LICENSE-MIT"
-    }
+  "license": "MIT",
+  "files": [
+    "index.html"
   ],
   "main": "index.html",
   "engines": {
     "node": ">= 0.8.0"
+  },
+  "dependencies": {
+    "async": "~0.2.9",
+    "event-stream": "~3.0.20",
+    "fs-utils": "~0.1.11"
   },
   "devDependencies": {
     "assemble": "^0.17.1",
@@ -43,22 +40,17 @@
     "lodash": "~2.4.1"
   },
   "keywords": [
+    "azure node",
+    "azure node sdk",
+    "azure node.js",
+    "azure nodejs",
+    "node azure",
     "node microsoft",
     "node on azure",
-    "node azure",
-    "azure node",
-    "windows azure node",
-    "azure nodejs",
-    "nodejs on azure",
-    "azure node.js",
-    "azure node sdk",
     "node.js cloud",
+    "nodejs on azure",
     "nodejs windows azure",
+    "windows azure node",
     "windows azure nodejs"
-  ],
-  "dependencies": {
-    "async": "~0.2.9",
-    "event-stream": "~3.0.20",
-    "fs-utils": "~0.1.11"
-  }
+  ]
 }
