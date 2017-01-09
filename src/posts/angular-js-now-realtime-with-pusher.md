@@ -1,6 +1,11 @@
+---
+title: Realtime Angular.js with Pusher
+date: "2014-01-30"
+---
+
 There has been a lot of hype around using [Firebase](https://www.firebase.com/) and [Angular.js](http://angularjs.org/) to create realtime applications. These applications are great at keeping the application's state in sync between clients and providing a full realtime document database simliar to [MongoDB](http://www.mongodb.org/) and [CouchDB](http://couchdb.apache.org/). What if you already have an Angular.js application, your data is already stored in MongoDB, and you just want to notify connected clients that something on the server has changed? This is where [Pusher](http://pusher.com/) and [angular-pusher](https://github.com/doowb/angular-pusher) come into play.
 
-##Angular.js
+### Angular.js
 
 Angular.js is a client side JavaScript framework built by Google. It provides the framework for building either small components that can be plugged in to your website or entire single page applications. At the core of Angular.js is a module system that allows creating providers, services, factories, and directives. All of these are used within controllers to create, retrieve, update, and delete data while providing nice features for manipulating the HTML DOM with little custom JavaScript code.
 
@@ -66,7 +71,7 @@ var ItemListController = function ($scope, $http, $timeout) {
 
 As you can see, we just update the `items` array every five seconds which isn't something that we want to keep doing. If a user is making a lot of changes, then we don't want to keep overwriting the `items` array. You could build the logic to only update changed items, but you still have the issue of polling the server every five seconds. It would be much nicer if we could subscribe to an event and wait for a notification of changes in realtime.
 
-## Making Angular.js realtime with Pusher
+### Making Angular.js realtime with Pusher
 
 Using Pusher will allow us to subscribe to events triggered by other clients. First I'll show you the simple changes needed in our `ItemLIstController` to use angular-pusher. Then I'll show you an example of using Pusher in a Node.js server when an item is updated.
 
@@ -160,7 +165,7 @@ app.post('/api/items', function (req, res) {
 
 ```
 
-## Get Pushing
+### Get Pushing
 
 All of this code can be found [here on GitHub](https://github.com/doowb/angular-pusher). The [`gh-pages` branch](https://github.com/doowb/angular-pusher/tree/gh-pages) contains the examples that these code snippets came from. The application itself can be [found here](http://doowb.github.io/angular-pusher), but the server side examples won't work when hosted on [GitHub Pages](http://pages.github.com/).
 
