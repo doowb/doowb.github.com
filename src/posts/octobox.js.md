@@ -3,7 +3,7 @@ title: Octobox.js
 date: "2017-01-09"
 ---
 
-[![https://raw.githubusercontent.com/doowb/octobox.js/master/docs/demo.png octobox.js demo]](https://octoboxjs.io)
+[![octobox.js demo](https://raw.githubusercontent.com/doowb/octobox.js/master/docs/demo.png)](https://octoboxjs.io)
 
 I published a new project last night called [octobox.js](https://github.com/doowb/octobox.js) that's a [node.js](https://nodejs.org/en/) project using [express](http://expressjs.com/), [handlebars](http://handlebarsjs.com/), and [sequelize](http://docs.sequelizejs.com/en/v3/) instead of Ruby on Rails and ActiveDirectory.
 
