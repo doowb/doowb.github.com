@@ -89,7 +89,10 @@ app.task('cleanPublish', function(cb) {
 
 app.task('push', function() {
   return app.src('_gh_pages/**/*')
-    .pipe(ghPages());
+    .pipe(ghPages({
+      branch: 'master',
+      push: false
+    }));
 });
 app.task('deploy', app.series(['push', 'cleanPublish']));
 
