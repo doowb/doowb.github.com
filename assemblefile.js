@@ -1,11 +1,17 @@
 'use strict';
 
+var browserSync = require('browser-sync').create();
 var helpers = require('handlebars-helpers')();
+var ghPages = require('gulp-gh-pages');
 var extname = require('gulp-extname');
 var assemble = require('assemble');
+var watch = require('base-watch');
 var less = require('gulp-less');
+var del = require('delete');
 var path = require('path');
 var app = assemble();
+
+app.use(watch());
 
 // helpers
 app.helpers(helpers);
@@ -57,7 +63,7 @@ app.task('less', function () {
     .pipe(app.dest('_gh_pages/public/css'));
 });
 
-app.task('build', ['load', 'less'], function() {
+app.task('build', ['load', 'less', 'copy'], function() {
   return app.toStream('pages')
     .pipe(app.renderFile())
     .pipe(extname())
@@ -68,6 +74,24 @@ app.task('build', ['load', 'less'], function() {
       return '_gh_pages';
     }));
 });
+
+app.task('copy', function() {
+  return app.copy(['src/root/**/*'], '_gh_pages', {dot: true});
+});
+
+app.task('clean', function(cb) {
+  del('./_gh_pages', {force: true}, cb);
+});
+
+app.task('cleanPublish', function(cb) {
+  del('./.publish', {force: true}, cb);
+});
+
+app.task('push', function() {
+  return app.src('_gh_pages/**/*')
+    .pipe(ghPages());
+});
+app.task('deploy', app.series(['push', 'cleanPublish']));
 
 app.task('default', ['build']);
 
