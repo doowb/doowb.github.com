@@ -11,7 +11,7 @@ Angular.js is a client side JavaScript framework built by Google. It provides th
 
 In a simple Angular.js application, data is retrieved and sent to and from a backend server through an `$http` or `$resource` service provided by the framework. Below is an example of retrieving a list of items from an API and updating the selected item using the `$http` service.
 
-```javascript
+```js
 var ItemListController = function ($scope, $http) {
   // initialize a list of items on the scope
   $scope.items = [];

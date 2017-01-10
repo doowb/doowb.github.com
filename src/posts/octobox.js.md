@@ -1,6 +1,6 @@
 ---
 title: Octobox.js
-date: "2017-01-09"
+date: "2017-01-09 20:00:00"
 ---
 
 [![octobox.js demo](https://raw.githubusercontent.com/doowb/octobox.js/master/docs/demo.png)](https://octoboxjs.io)
