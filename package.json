@@ -21,6 +21,7 @@
     "assemble": "^0.17.1",
     "base-watch": "^0.1.3",
     "browser-sync": "^2.18.6",
+    "codemash": "github:doowb/codemash",
     "delete": "^0.3.2",
     "gulp-extname": "^0.2.2",
     "gulp-gh-pages": "^0.5.4",
