@@ -21,40 +21,46 @@
         </div>
 
     <div class="container">
-      <div class="page-header">
-  <h1>doowb&#x27;s blog</h1>
-  <p class="lead">Notes, posts, todos, and other things that I think of.</p>
+      <div class="blog-header">
+  <h1 class="blog-title">doowb&#x27;s blog</h1>
+  <p class="lead blog-description">Notes, posts, todos, and other things that I think of.</p>
 </div>
 
-<div class="container">
-  <div class="row">
-    <h2>Octobox.js</h2>
-    <div>
+<div class="row">
+  <div class="span8 blog-main">
+    <div class="blog-post">
+      <h2 class="blog-post-title">Octobox.js</h2>
+      <p class="blog-post-meta">January 9th, 2017 by <a href="https://github.com/doowb">doowb</a></p>
+
       <p><a href="https://octoboxjs.io"><img src="https://raw.githubusercontent.com/doowb/octobox.js/master/docs/demo.png" alt="octobox.js demo"></a></p>
 <p>I published a new project last night called <a href="https://github.com/doowb/octobox.js">octobox.js</a> that's a <a href="https://nodejs.org/en/">node.js</a> project using <a href="http://expressjs.com/">express</a>, <a href="http://handlebarsjs.com/">handlebars</a>, and <a href="http://docs.sequelizejs.com/en/v3/">sequelize</a> instead of Ruby on Rails and ActiveDirectory.</p>
 <p>The code can be found on GitHub at <a href="https://github.com/doowb/octobox.js">https://github.com/doowb/octobox.js</a> and the application is hosted on Heroku at <a href="https://octoboxjs.io">https://octoboxjs.io</a>.</p>
 <p>I'll be documenting the process that I took to port the application and the libraries that I had to use and/or create to provide similar features to the original Ruby on Rails application.</p>
 
+      <br><br>
+      <hr>
+      <br><br>
     </div>
-    <hr>
-  </div>
-  <div class="row">
-    <h2>Heading to CodeMash</h2>
-    <div>
+    <div class="blog-post">
+      <h2 class="blog-post-title">Heading to CodeMash</h2>
+      <p class="blog-post-meta">January 9th, 2017 by <a href="https://github.com/doowb">doowb</a></p>
+
       <p>Leaving for <a href="http://codemash.org">CodeMash</a> today with <a href="https://github.com/jonschlinkert">Jon Schlinkert</a>. Hope to have updates over the next week with all of the interesting things I'll be learning and all the people I'll get to talk to.</p>
 <p>If you're there and want to meetup, feel free to tweet me <a href="https://twitter/doowb">@doowb</a></p>
 
+      <br><br>
+      <hr>
+      <br><br>
     </div>
-    <hr>
-  </div>
-  <div class="row">
-    <h2>Realtime Angular.js with Pusher</h2>
-    <div>
+    <div class="blog-post">
+      <h2 class="blog-post-title">Realtime Angular.js with Pusher</h2>
+      <p class="blog-post-meta">January 29th, 2014 by <a href="https://github.com/doowb">doowb</a></p>
+
       <p>There has been a lot of hype around using <a href="https://www.firebase.com/">Firebase</a> and <a href="http://angularjs.org/">Angular.js</a> to create realtime applications. These applications are great at keeping the application's state in sync between clients and providing a full realtime document database simliar to <a href="http://www.mongodb.org/">MongoDB</a> and <a href="http://couchdb.apache.org/">CouchDB</a>. What if you already have an Angular.js application, your data is already stored in MongoDB, and you just want to notify connected clients that something on the server has changed? This is where <a href="http://pusher.com/">Pusher</a> and <a href="https://github.com/doowb/angular-pusher">angular-pusher</a> come into play.</p>
 <h3>Angular.js</h3>
 <p>Angular.js is a client side JavaScript framework built by Google. It provides the framework for building either small components that can be plugged in to your website or entire single page applications. At the core of Angular.js is a module system that allows creating providers, services, factories, and directives. All of these are used within controllers to create, retrieve, update, and delete data while providing nice features for manipulating the HTML DOM with little custom JavaScript code.</p>
 <p>In a simple Angular.js application, data is retrieved and sent to and from a backend server through an <code>$http</code> or <code>$resource</code> service provided by the framework. Below is an example of retrieving a list of items from an API and updating the selected item using the <code>$http</code> service.</p>
-<pre><code class="language-javascript">var ItemListController = function ($scope, $http) {
+<pre><code class="language-js">var ItemListController = function ($scope, $http) {
   // initialize a list of items on the scope
   $scope.items = [];
 
@@ -188,9 +194,18 @@ app.post('/api/items', function (req, res) {
 <p>All of this code can be found <a href="https://github.com/doowb/angular-pusher">here on GitHub</a>. The <a href="https://github.com/doowb/angular-pusher/tree/gh-pages"><code>gh-pages</code> branch</a> contains the examples that these code snippets came from. The application itself can be <a href="http://doowb.github.io/angular-pusher">found here</a>, but the server side examples won't work when hosted on <a href="http://pages.github.com/">GitHub Pages</a>.</p>
 <p>Hopefully this article and the code samples are enough to get your Angular.js application working with Pusher.</p>
 
+      <br><br>
+      <hr>
+      <br><br>
     </div>
-    <hr>
   </div>
+
+  <div class="span3 offset1 blog-sidebar">
+    <div class="sidebar-module sidebar-module-inset">
+      <h4>About</h4>
+      <p>Learn more about me on <a href="https://github.com/doowb" target="_blank">GitHub</a> and follow me on twitter <a href="https://twitter/doowb" target="_blank">@doowb</a></p>
+    </div>
+  </div><!-- /.blog-sidebar -->
 </div>
 
     </div>
