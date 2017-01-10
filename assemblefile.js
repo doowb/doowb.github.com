@@ -5,6 +5,7 @@ var helpers = require('handlebars-helpers')();
 var ghPages = require('gulp-gh-pages');
 var extname = require('gulp-extname');
 var assemble = require('assemble');
+var codemash = require('codemash');
 var watch = require('base-watch');
 var less = require('gulp-less');
 var del = require('delete');
@@ -48,7 +49,7 @@ app.task('load', function(cb) {
   app.layouts('src/layouts/*.hbs');
   app.partials('src/partials/*.hbs');
   app.pages('src/pages/*.hbs');
-  app.posts('src/posts/*.md');
+  app.posts(['src/posts/*.md', codemash('content.posts.src', true)]);
   app.data('src/data/*.json', {namespace: true});
   if (app.cache.data.data) {
     app.data(app.cache.data.data);
