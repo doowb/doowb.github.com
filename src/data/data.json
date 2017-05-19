@@ -1,4 +1,5 @@
 {
-	"stylesheets": ["styles.css", "bootstrap.css"],
-	"scripts": ["jquery.js"]
+  "stylesheets": ["styles.css", "bootstrap.css"],
+  "scripts": ["jquery.js"],
+  "ga": {"trackingId": "UA-67453407-3"}
 }

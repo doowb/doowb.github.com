@@ -12,6 +12,7 @@
     <div class="container">
       {% body %}
     </div>
+    {{> ga }}
     {{#each scripts}}<script src="{{@root.assets}}/js/{{.}}"></script>{{/each}}
   </body>
 </html>
