@@ -10,7 +10,7 @@ lead: Notes, posts, todos, and other things that I think of.
 <div class="row">
   <div class="span8 blog-main">
     {{#posts}}
-    {{#each (reverse (sortBy items "data.date")) as |item|}}
+    {{#each (reverse (sortBy (published items) "data.date")) as |item|}}
     <div class="blog-post">
       <h2 class="blog-post-title">{{item.data.title}}</h2>
       <p class="blog-post-meta">{{moment item.data.date "MMMM Do, YYYY" datejs=false}} by <a href="https://github.com/doowb">doowb</a></p>

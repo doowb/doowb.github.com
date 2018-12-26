@@ -18,6 +18,10 @@ app.helper('reverse', arr => {
   return arr;
 });
 
+app.helper('published', arr => {
+  return arr.filter(item => item.data.draft !== true);
+});
+
 // options
 app.option('layout', 'default');
 
