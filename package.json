@@ -4,17 +4,14 @@
   "version": "0.1.0",
   "homepage": "https://doowb.com/",
   "author": "Brian Woodward (http://github.com/doowb)",
-  "repository": "doowb/doowb.github.com",
+  "repository": "doowb/Blog",
   "bugs": {
     "url": "https://github.com/doowb/doowb.github.com/issues"
   },
   "license": "MIT",
-  "files": [
-    "index.html"
-  ],
-  "main": "index.html",
+  "files": [],
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 8"
   },
   "dependencies": {},
   "devDependencies": {
