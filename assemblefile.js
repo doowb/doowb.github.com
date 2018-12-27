@@ -8,7 +8,7 @@ const less = require('gulp-less');
 const del = require('delete');
 const path = require('path');
 
-const config = require('./build/config');
+const config = require('./lib/config');
 const app = assemble();
 
 app.use(config);
