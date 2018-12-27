@@ -13,17 +13,6 @@ const app = assemble();
 
 app.use(config);
 
-// middleware
-app.onLoad(/(pages|posts)\/.*\.(hbs|md)$/, (view, next) => {
-  let dest = view.data.dest || `${view.stem}.html`;
-  view.dest = dest;
-
-  view.data.filename = view.filename;
-  view.data.basename = view.basename;
-  view.data.stem = view.stem;
-  next();
-});
-
 // tasks
 app.task('load', cb => {
   app.layouts('src/layouts/*.hbs');
@@ -46,6 +35,7 @@ app.task('less', () => {
 
 app.task('build', ['load', 'less', 'copy'], () => {
   return app.toStream('pages')
+    .pipe(app.toStream('posts'))
     .pipe(app.renderFile())
     .pipe(extname())
     .pipe(app.dest((file) => {

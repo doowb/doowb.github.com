@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<div class="blog-post">
+  <h2 class="blog-post-title">{{ title }}</h2>
+  <p class="blog-post-meta">{{moment date "MMMM Do, YYYY" datejs=false}} by <a href="https://github.com/doowb">doowb</a></p>
+
+  {{#if unsplashArgs}}{{> unsplash this }}{{/if}}
+  {{#markdown}}
+{% body %}
+  {{/markdown}}
+  <br><br>
+  <hr>
+  <br><br>
+</div>
+

@@ -1,18 +1,18 @@
 ---
 title: "12 Days of Node.js - Day 1: The beginning of a web application."
 date: "2018-12-26 10:00:00"
-layout: "12-days-of-node"
-unsplash: EWZ0STfVSug
+layout: "post"
+unsplashArgs: EWZ0STfVSug
 ---
 
-### Introduction
+## Introduction
 
 This post is the beginning of a series of posts on building a web application in Node.js.
 The goal is to finish with a working web application that has common user signup, authentication, and management. This includes allowing users to reset their passwords when they know their current password or if they've forgotten their password. It also includes managing users through an administration interface.
 
 The series is split into 12 days starting on December 26th, 2018 and finishing on January 6th, 2019. Each post should only take 5 to 10 minutes to read and implement on your own.
 
-### Setting up the server and web application
+## Setting up the server and web application
 
 To see the final code for this post, checkout the [Day 1](https://github.com/doowb/12-days-of-node/tree/day-01) branch of the [12 days of node repository](https://github.com/doowb/12-days-of-node).
 
@@ -85,7 +85,7 @@ Since this file is named `server.js`, you can run `npm start` from the command l
 
 To stop the server, press `Ctrl+c` at the command line.
 
-### Conclusion
+## Conclusion
 
 That's all for this post. In the next post, we'll talk routes, middleware, and how to use them to return something other than "hello world" to the browser.
 

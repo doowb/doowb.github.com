@@ -3,7 +3,7 @@
   <head>
     <title>{{ title }}</title>
     {{#each stylesheets}}
-    <link rel="stylesheet" href="{{@root.assets}}/css/{{.}}">
+    <link rel="stylesheet" href="{{relative @root.dest @root.assets}}/css/{{.}}">
     {{/each}}
   </head>
   <body>

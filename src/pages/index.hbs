@@ -12,7 +12,7 @@ lead: Notes, posts, todos, and other things that I think of.
     {{#posts}}
     {{#each (reverse (sortBy (published items) "data.date")) as |item|}}
     <div class="blog-post">
-      <h2 class="blog-post-title">{{item.data.title}}</h2>
+      <h2 class="blog-post-title"><a href="{{relative @root.dest item.dest}}">{{item.data.title}}</a></h2>
       <p class="blog-post-meta">{{moment item.data.date "MMMM Do, YYYY" datejs=false}} by <a href="https://github.com/doowb">doowb</a></p>
 
       {{#if item.data.unsplash}}{{> unsplash item.data }}{{/if}}
