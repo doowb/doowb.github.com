@@ -3,6 +3,8 @@ title: "12 Days of Node.js - Day 8: Placeholder."
 date: "2019-01-02"
 layout: "post"
 unsplashArgs: P7MkoYvSnLI
+tags: ["12-days-of-node"]
+series: "12-days-of-node"
 draft: true
 ---
 

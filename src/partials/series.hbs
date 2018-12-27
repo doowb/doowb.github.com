@@ -1,0 +1,17 @@
+{{#if this.series}}
+  <br>
+  <h4>Related posts</h4>
+  {{#posts}}
+  <ul>
+  {{#each (sortBy (published (series items ../series)) "data.date") as |item|}}
+    {{#is @root.dest item.dest}}
+    <li>{{item.data.title}}</li>
+    {{else}}
+    <li><a href="{{relative @root.dest item.dest}}">{{item.data.title}}</a></li>
+    {{/is}}
+
+  {{/each}}
+  </ul>
+  {{/posts}}
+  <br>
+{{/if}}
