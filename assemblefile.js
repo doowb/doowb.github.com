@@ -21,7 +21,6 @@ app.onLoad(/(pages|posts)\/.*\.(hbs|md)$/, (view, next) => {
   view.data.filename = view.filename;
   view.data.basename = view.basename;
   view.data.stem = view.stem;
-
   next();
 });
 

@@ -1,6 +1,6 @@
 ---
 title: Realtime Angular.js with Pusher
-date: "2014-01-30"
+date: "2014-01-30 10:00:00"
 ---
 
 There has been a lot of hype around using [Firebase](https://www.firebase.com/) and [Angular.js](http://angularjs.org/) to create realtime applications. These applications are great at keeping the application's state in sync between clients and providing a full realtime document database simliar to [MongoDB](http://www.mongodb.org/) and [CouchDB](http://couchdb.apache.org/). What if you already have an Angular.js application, your data is already stored in MongoDB, and you just want to notify connected clients that something on the server has changed? This is where [Pusher](http://pusher.com/) and [angular-pusher](https://github.com/doowb/angular-pusher) come into play.
