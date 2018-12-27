@@ -9,8 +9,9 @@ const del = require('delete');
 const path = require('path');
 
 const config = require('./lib/config');
-const app = assemble();
+const pipeline = require('./lib/pipeline');
 
+const app = assemble();
 app.use(config);
 
 // tasks
@@ -36,6 +37,7 @@ app.task('less', () => {
 app.task('build', ['load', 'less', 'copy'], () => {
   return app.toStream('pages')
     .pipe(app.toStream('posts'))
+    .pipe(pipeline.published())
     .pipe(app.renderFile())
     .pipe(extname())
     .pipe(app.dest((file) => {
