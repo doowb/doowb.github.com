@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Realtime Angular.js with Pusher</title>
+    <link rel="stylesheet" href="../../../public/css/styles.css">
+    <link rel="stylesheet" href="../../../public/css/bootstrap.css">
+  </head>
+  <body>
+        <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+              <ul class="nav">
+                
+            <li><a href="../../../index.html">Home</a></li>
+            
+            <li><a href="../../../info.html">About</a></li>
+            
+              </ul>
+            </div>
+          </div>
+        </div>
+
+    <div class="container">
+      <div class="blog-post">
+  <h2 class="blog-post-title">Realtime Angular.js with Pusher</h2>
+  <p class="blog-post-meta">January 30th, 2014 by <a href="https://github.com/doowb">doowb</a></p>
+
+  
+<p>There has been a lot of hype around using <a href="https://www.firebase.com/">Firebase</a> and <a href="http://angularjs.org/">Angular.js</a> to create realtime applications. These applications are great at keeping the application's state in sync between clients and providing a full realtime document database simliar to <a href="http://www.mongodb.org/">MongoDB</a> and <a href="http://couchdb.apache.org/">CouchDB</a>. What if you already have an Angular.js application, your data is already stored in MongoDB, and you just want to notify connected clients that something on the server has changed? This is where <a href="http://pusher.com/">Pusher</a> and <a href="https://github.com/doowb/angular-pusher">angular-pusher</a> come into play.</p>
+<h3>Angular.js</h3>
+<p>Angular.js is a client side JavaScript framework built by Google. It provides the framework for building either small components that can be plugged in to your website or entire single page applications. At the core of Angular.js is a module system that allows creating providers, services, factories, and directives. All of these are used within controllers to create, retrieve, update, and delete data while providing nice features for manipulating the HTML DOM with little custom JavaScript code.</p>
+<p>In a simple Angular.js application, data is retrieved and sent to and from a backend server through an <code>$http</code> or <code>$resource</code> service provided by the framework. Below is an example of retrieving a list of items from an API and updating the selected item using the <code>$http</code> service.</p>
+<pre><code class="language-js">var ItemListController = function ($scope, $http) {
+  // initialize a list of items on the scope
+  $scope.items = [];
+
+  var retrieveItems = function () {
+    // get a list of items from the api located at '/api/items'
+    $http.get('/api/items')
+        .success(function (items) {
+          $scope.items = items;
+        });
+  };
+
+  $scope.updateItem = function (item) {
+    $http.post('/api/items', item);
+  };
+
+  // load the items
+  retrieveItems();
+};
+</code></pre>
+<pre><code class="language-html">&lt;div ng-controller='ItemListController'&gt;
+    &lt;h1&gt;Items&lt;/h1&gt;
+    &lt;table&gt;
+      &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Qty&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;
+      &lt;tr ng-repeat=&quot;item in items&quot;&gt;
+        &lt;td&gt;&lt;input type=&quot;text&quot; ng-model=&quot;item.name&quot;&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;input type=&quot;text&quot; ng-model=&quot;item.qty&quot;&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;button type=&quot;button&quot; ng-click=&quot;updateItem(item)&quot;&gt;Update&lt;/button&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+</code></pre>
+<p>If we needed to know when items have been updated on the server by another user, we would have to constantly poll the server to find out if the <code>items</code> array changed.</p>
+<pre><code class="language-javascript">var ItemListController = function ($scope, $http, $timeout) {
+
+  $scope.items = [];
+
+  var retrieveItems = function () {
+    // get a list of items from the api located at '/api/items'
+    $http.get('/api/items')
+        .success(function (items) {
+          $scope.items = items;
+
+          // check for item changes
+          $timeout(retrieveItems, 5000);
+        });
+  };
+
+  ...
+};
+</code></pre>
+<p>As you can see, we just update the <code>items</code> array every five seconds which isn't something that we want to keep doing. If a user is making a lot of changes, then we don't want to keep overwriting the <code>items</code> array. You could build the logic to only update changed items, but you still have the issue of polling the server every five seconds. It would be much nicer if we could subscribe to an event and wait for a notification of changes in realtime.</p>
+<h3>Making Angular.js realtime with Pusher</h3>
+<p>Using Pusher will allow us to subscribe to events triggered by other clients. First I'll show you the simple changes needed in our <code>ItemLIstController</code> to use angular-pusher. Then I'll show you an example of using Pusher in a Node.js server when an item is updated.</p>
+<p>First, we need tell our Angular.js application to use angular-pusher. You can do this by either downloading the <a href="https://github.com/doowb/angular-pusher/blob/master/angular-pusher.js">development</a> or <a href="https://github.com/doowb/angular-pusher/blob/master/angular-pusher.min.js">production</a> files from <a href="https://github.com/doowb/angular-pusher/blob/master">GitHub</a> or using <code>bower install angular-pusher</code> and loading them into your page with the following script tag:</p>
+<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; src=&quot;bower_components/angular-pusher/angular-pusher.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>This should be loaded after the <code>angular.min.js</code> file and before your <code>application.js</code> script.</p>
+<p>Now we can tell our application that we want to use the services provided in <code>angular-pusher.min.js</code>.</p>
+<pre><code class="language-javascript">angular.module('myApp', ['doowb.angular-pusher']).
+
+config(['PusherServiceProvider',
+    function(PusherServiceProvider) {
+        PusherServiceProvider
+            .setToken('d420162e600c57b0e60f')
+            .setOptions({});
+    }
+]);
+</code></pre>
+<p>The angular-pusher module has a <code>PusherServiceProvider</code> that can be configured when creating your application. Here is where you can set your Pusher application key (<code>PusherServiceProvider.setToken('token')</code>), additional Pusher options (<code>PusherServiceProvider.setOptions(options)</code>), and a specific version of Pusher (<code>PusherServiceProvider.setPusherUrl(url)</code>). The Pusher url has a default, but it may be an older version.</p>
+<p>Now we can use Pusher in our controller to subscribe to events and be notified when our <code>items</code> array changes:</p>
+<pre><code class="language-javascript">var ItemListController = function($scope, $http, Pusher) {
+    $scope.items = [];
+
+    Pusher.subscribe('items', 'updated', function (item) {
+    // an item was updated. find it in our list and update it.
+        for (var i = 0; i &lt; $scope.items.length; i++) {
+            if ($scope.items[i].id === item.id) {
+                $scope.items[i] = item;
+                break;
+            }
+        }
+    });
+
+  var retrieveItems = function () {
+    // get a list of items from the api located at '/api/items'
+    console.log('getting items');
+    $http.get('/api/items')
+        .success(function (items) {
+          $scope.items = items;
+      });
+  };
+
+  $scope.updateItem = function (item) {
+    console.log('updating item');
+    $http.post('/api/items', item);
+  };
+
+  // load the items
+  retrieveItems();
+}
+</code></pre>
+<p>In the Node.js server, we setup our connection to Pusher with a few lines of code. It only takes one more line of code to trigger the actual update notification:</p>
+<pre><code class="language-javascript">// setup Pusher
+var Pusher = require('pusher');
+var pusher = new Pusher({
+  appId: '12345',
+  key: 'some key',
+  secret: 'my secret... shhh!!!'
+});
+
+// in our express server
+// setup a post route and trigger the change in Pusher
+app.post('/api/items', function (req, res) {
+
+  // get our item from the req and update the item collection
+  // in a production application this would have validation and items
+  // would be stored in a database.
+  var item = req.body;
+  items[item.id] = item;
+
+  // tell Pusher to trigger an 'updated' event on the 'items' channel
+  // add pass the changed item to the event
+  pusher.trigger('items', 'updated', item);
+
+  // respond with the changed item
+  res.json(item);
+});
+
+</code></pre>
+<h3>Get Pushing</h3>
+<p>All of this code can be found <a href="https://github.com/doowb/angular-pusher">here on GitHub</a>. The <a href="https://github.com/doowb/angular-pusher/tree/gh-pages"><code>gh-pages</code> branch</a> contains the examples that these code snippets came from. The application itself can be <a href="http://doowb.github.io/angular-pusher">found here</a>, but the server side examples won't work when hosted on <a href="http://pages.github.com/">GitHub Pages</a>.</p>
+<p>Hopefully this article and the code samples are enough to get your Angular.js application working with Pusher.</p>
+  <br><br>
+    <hr>
+  <br><br>
+</div>
+
+
+    </div>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-67453407-3', 'auto');
+      ga('send', 'pageview');
+    
+    </script>
+    <script src="public/js/jquery.js"></script>
+  </body>
+</html>
+
