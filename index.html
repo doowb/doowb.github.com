@@ -29,10 +29,82 @@
 <div class="row">
   <div class="span8 blog-main">
     <div class="blog-post">
-      <h2 class="blog-post-title">Day 1 of CodeMash 2017</h2>
-      <p class="blog-post-meta">January 10th, 2017 by <a href="https://github.com/doowb">doowb</a></p>
+      <h2 class="blog-post-title">12 Days of Node.js - Day 1: The beginning of a web application.</h2>
+      <p class="blog-post-meta">December 26th, 2018 by <a href="https://github.com/doowb">doowb</a></p>
 
-      
+      <div>
+  <img src="https://images.unsplash.com/photo-1516298761027-64d49da72287?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjQ4MjI0fQ">
+  <span class="small em muted">
+    Photo by <a href="https://unsplash.com/@thephotohiker?utm_source=blog&utm_medium=referral">Michael Hoyt</a> on <a href="https://unsplash.com/?utm_source=blog&utm_medium=referral">Unsplash</a>
+  </span>
+</div>
+
+      <h3>Introduction</h3>
+<p>This post is the beginning of a series of posts on building a web application in Node.js.
+The goal is to finish with a working web application that has common user signup, authentication, and management. This includes allowing users to reset their passwords when they know their current password or if they've forgotten their password. It also includes managing users through an administration interface.</p>
+<p>The series is split into 12 days starting on December 26th, 2018 and finishing on January 6th, 2019. Each post should only take 5 to 10 minutes to read and implement on your own.</p>
+<h3>Setting up the server and web application</h3>
+<p>To see the final code for this post, checkout the <a href="https://github.com/doowb/12-days-of-node/tree/day-01">Day 1</a> branch of the <a href="https://github.com/doowb/12-days-of-node">12 days of node repository</a>.</p>
+<p>The structure for the project was created using the <a href="https://github.com/generate/generate">generate</a> <a href="https://github.com/generate/generate-project">project</a> generator. This generator creates common Node.js project files, configurations for linting and NPM, and GitHub repository files.</p>
+<h3>The app</h3>
+<p>We'll start with our <a href="https://github.com/doowb/12-days-of-node/blob/day-01/app.js">application JavaScript file</a> which contains the code for creating an instance of an <a href="http://expressjs.com">Express</a> app:</p>
+<pre><code class="language-js">'use strict';
+
+const express = require('express');
+
+async function create() {
+  let app = express();
+
+  app.use((req, res) =&gt; {
+    res.send('hello world');
+  });
+
+  return app;
+};
+
+module.exports = { create };
+</code></pre>
+<p>This file exports an object with a <code>create</code> method that is used to create the application. The application uses a single middleware that returns the string <code>&quot;hello world&quot;</code>. We'll get into middleware and how they're used in Express applications in future posts. For now, you just need to know that when someone goes to your web site in a browser, they'll see <code>hello world</code>.</p>
+<h3>The server</h3>
+<p>The next file to review is the <a href="https://github.com/doowb/12-days-of-node/blob/day-01/server.js">server JavaScript file</a> which contains the code that will start a server running that &quot;listens&quot; on port 3000. This means that on your local computer you'll be able to go to <a href="http://localhost:3000">http://localhost:3000</a> to access your web application (which will show &quot;hello world&quot;).</p>
+<pre><code class="language-js">'use strict';
+
+const http = require('http');
+const { create } = require('./app');
+
+const PORT = process.env.PORT || 3000;
+
+const run = () =&gt; {
+  return new Promise(async (resolve, reject) =&gt; {
+    let app = await create();
+    app.once('error', reject);
+
+    let server = http.createServer(app);
+    server.listen(PORT, () =&gt; {
+      console.log('Web application listening on port:', PORT);
+      console.log(`\thttp://localhost:${PORT}`);
+    });
+
+    process.on('SIGINT', resolve);
+    process.on('SIGTERM', resolve);
+  });
+};
+
+run()
+  .then(() =&gt; {
+    console.log('\nShutting down');
+    process.exit(0);
+  })
+  .catch(err =&gt; {
+    console.error(err);
+    process.exit(1);
+  });
+</code></pre>
+<p>Since this file is named <code>server.js</code>, you can run <code>npm start</code> from the command line to start the server. If you don't want to use NPM, you can also run <code>node server.js</code>. Once the server is started, go to <a href="http://localhost:3000">http://localhost:3000</a> to see your web app in action!</p>
+<p>To stop the server, press <code>Ctrl+c</code> at the command line.</p>
+<h3>Conclusion</h3>
+<p>That's all for this post. In the next post, we'll talk routes, middleware, and how to use them to return something other than &quot;hello world&quot; to the browser.</p>
+
       <br><br>
       <hr>
       <br><br>
@@ -41,6 +113,7 @@
       <h2 class="blog-post-title">Octobox.js</h2>
       <p class="blog-post-meta">January 9th, 2017 by <a href="https://github.com/doowb">doowb</a></p>
 
+      
       <p><a href="https://octoboxjs.io"><img src="https://raw.githubusercontent.com/doowb/octobox.js/master/docs/demo.png" alt="octobox.js demo"></a></p>
 <p>I published a new project last night called <a href="https://github.com/doowb/octobox.js">octobox.js</a> that's a <a href="https://nodejs.org/en/">node.js</a> project using <a href="http://expressjs.com/">express</a>, <a href="http://handlebarsjs.com/">handlebars</a>, and <a href="http://docs.sequelizejs.com/en/v3/">sequelize</a> instead of Ruby on Rails and ActiveDirectory.</p>
 <p>The code can be found on GitHub at <a href="https://github.com/doowb/octobox.js">https://github.com/doowb/octobox.js</a> and the application is hosted on Heroku at <a href="https://octoboxjs.io">https://octoboxjs.io</a>.</p>
@@ -54,6 +127,7 @@
       <h2 class="blog-post-title">Heading to CodeMash</h2>
       <p class="blog-post-meta">January 9th, 2017 by <a href="https://github.com/doowb">doowb</a></p>
 
+      
       <p>Leaving for <a href="http://codemash.org">CodeMash</a> today with <a href="https://github.com/jonschlinkert">Jon Schlinkert</a>. Hope to have updates over the next week with all of the interesting things I'll be learning and all the people I'll get to talk to.</p>
 <p>If you're there and want to meetup, feel free to tweet me <a href="https://twitter/doowb">@doowb</a></p>
 
@@ -65,6 +139,7 @@
       <h2 class="blog-post-title">Realtime Angular.js with Pusher</h2>
       <p class="blog-post-meta">January 29th, 2014 by <a href="https://github.com/doowb">doowb</a></p>
 
+      
       <p>There has been a lot of hype around using <a href="https://www.firebase.com/">Firebase</a> and <a href="http://angularjs.org/">Angular.js</a> to create realtime applications. These applications are great at keeping the application's state in sync between clients and providing a full realtime document database simliar to <a href="http://www.mongodb.org/">MongoDB</a> and <a href="http://couchdb.apache.org/">CouchDB</a>. What if you already have an Angular.js application, your data is already stored in MongoDB, and you just want to notify connected clients that something on the server has changed? This is where <a href="http://pusher.com/">Pusher</a> and <a href="https://github.com/doowb/angular-pusher">angular-pusher</a> come into play.</p>
 <h3>Angular.js</h3>
 <p>Angular.js is a client side JavaScript framework built by Google. It provides the framework for building either small components that can be plugged in to your website or entire single page applications. At the core of Angular.js is a module system that allows creating providers, services, factories, and directives. All of these are used within controllers to create, retrieve, update, and delete data while providing nice features for manipulating the HTML DOM with little custom JavaScript code.</p>
