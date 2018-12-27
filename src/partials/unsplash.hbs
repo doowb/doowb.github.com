@@ -1,0 +1,8 @@
+<div>
+{{#with (unsplash this.unsplash)}}
+  <img src="{{this.urls.regular}}">
+  <span class="small em muted">
+    Photo by <a href="{{this.user.links.html}}?utm_source=blog&utm_medium=referral">{{this.user.name}}</a> on <a href="https://unsplash.com/?utm_source=blog&utm_medium=referral">Unsplash</a>
+  </span>
+{{/with}}
+</div>

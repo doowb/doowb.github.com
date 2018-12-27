@@ -1,35 +1,17 @@
 'use strict';
 
-const helpers = require('handlebars-helpers')();
+
 const ghPages = require('gulp-gh-pages');
 const extname = require('gulp-extname');
 const assemble = require('assemble');
 const less = require('gulp-less');
 const del = require('delete');
 const path = require('path');
+
+const config = require('./build/config');
 const app = assemble();
 
-// helpers
-app.helpers(helpers);
-app.helper('md', helpers.md.sync);
-
-app.helper('reverse', arr => {
-  arr.reverse();
-  return arr;
-});
-
-app.helper('published', arr => {
-  return arr.filter(item => item.data.draft !== true);
-});
-
-// options
-app.option('layout', 'default');
-
-// data
-app.data('assets', 'public');
-
-// custom view collections
-app.create('posts');
+app.use(config);
 
 // middleware
 app.onLoad(/(pages|posts)\/.*\.(hbs|md)$/, (view, next) => {
