@@ -1,6 +1,6 @@
 ---
 title: "12 Days of Node.js - Day 1: The beginning of a web application."
-date: "2018-12-26 10:00:00"
+date: "2019-12-26 10:00:00"
 layout: "post"
 unsplashArgs: EWZ0STfVSug
 tags: ["12-days-of-node"]

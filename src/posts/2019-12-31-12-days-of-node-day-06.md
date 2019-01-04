@@ -1,6 +1,6 @@
 ---
 title: "12 Days of Node.js - Day 6: Placeholder."
-date: "2018-12-31"
+date: "2019-12-31"
 layout: "post"
 unsplashArgs: WPmPsdX2ySw
 tags: ["12-days-of-node"]
