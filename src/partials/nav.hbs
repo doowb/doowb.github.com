@@ -2,9 +2,9 @@
       <div class="navbar-inner">
         <div class="container">
           <ul class="nav">
-            {{#pages~}}{{#each items as |item|}}
-            <li{{#is item.stem ../../stem}} class="active"{{/is}}><a href="{{relative @root.dest (lowercase item.dest)}}">{{get item.stem @root.menu}}</a></li>
-            {{/each}}{{~/pages}}
+            {{#pages~}}{{#each @root.menu as |title stem|}}{{#with (find ../items "stem" stem)}}
+            <li{{#is this.stem @root.stem}} class="active"{{/is}}><a href="{{relative @root.dest (lowercase this.dest)}}">{{title}}</a></li>
+            {{/with}}{{/each}}{{~/pages}}
           </ul>
         </div>
       </div>
