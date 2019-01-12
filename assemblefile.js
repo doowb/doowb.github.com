@@ -48,8 +48,12 @@ app.task('build', ['load', 'less', 'copy'], () => {
     }));
 });
 
-app.task('copy', () => {
+app.task('copy', ['copy-images'], () => {
   return app.copy(['src/root/**/*'], '_gh_pages', {dot: true});
+});
+
+app.task('copy-images', () => {
+  return app.copy(['src/assets/images/**/*'], '_gh_pages/assets/images', {dot: true});
 });
 
 app.task('clean', cb => {
