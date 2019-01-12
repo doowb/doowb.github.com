@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>doowb&#x27;s blog</title>
-    <link rel="stylesheet" href="public/css/styles.css">
-    <link rel="stylesheet" href="public/css/bootstrap.css">
+    <title>Generating Config Files with Enquirer</title>
+    <link rel="stylesheet" href="../../../public/css/styles.css">
+    <link rel="stylesheet" href="../../../public/css/bootstrap.css">
   </head>
   <body>
         <div class="navbar navbar-fixed-top">
@@ -11,11 +11,11 @@
             <div class="container">
               <ul class="nav">
                 
-            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="../../../index.html">Home</a></li>
             
-            <li><a href="info.html">About</a></li>
+            <li><a href="../../../info.html">About</a></li>
             
-            <li><a href="books.html">Reading list</a></li>
+            <li><a href="../../../books.html">Reading list</a></li>
             
               </ul>
             </div>
@@ -23,25 +23,18 @@
         </div>
 
     <div class="container">
-      <div class="blog-header">
-  <h1 class="blog-title">doowb&#x27;s blog</h1>
-  <p class="lead blog-description">Notes, posts, todos, and other things that I think of.</p>
-</div>
+      <div class="blog-post">
+  <h2 class="blog-post-title">Generating Config Files with Enquirer</h2>
+  <p class="blog-post-meta">January 11th, 2019 by <a href="https://github.com/doowb">doowb</a></p>
 
-<div class="row">
-  <div class="span8 blog-main">
-    <div class="blog-post">
-      <h2 class="blog-post-title"><a href="2019/01/11/generating-config-files-with-enquirer.html">Generating Config Files with Enquirer</a></h2>
-      <p class="blog-post-meta">January 11th, 2019 by <a href="https://github.com/doowb">doowb</a></p>
-
-      <div>
+  <div>
   <img src="https://images.unsplash.com/photo-1535572290543-960a8046f5af?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjQ4MjI0fQ">
   <span class="small em muted">
     Photo by <a href="https://unsplash.com/@shs521?utm_source=blog&utm_medium=referral">Susan Holt Simpson</a> on <a href="https://unsplash.com/?utm_source=blog&utm_medium=referral">Unsplash</a>
   </span>
 </div>
 
-      <h2>Configuration files</h2>
+<h2>Configuration files</h2>
 <p>As a developer, I work with configuration files for a lot of different applications, libraries, services, and tools. Sometimes these configuration files are simple JSON or YAML files that are created once when installing a tool or created when instantiating a project (like a <a href="https://firebase.google.com/docs/cli/#the_firebasejson_file">firebase.json</a> file) and never touched again. Sometimes the configuration files are code files that determine how your project is built, like <a href="https://github.com/generate/generate">generate</a>, <a href="https://github.com/assemble/assemble">assemble</a>, or <a href="https://gulpjs.com">gulp</a> files.</p>
 <p>In my case, I've been working with <a href="https://kubernetes.io/">Kubernetes</a> and wanted to create a <a href="https://www.postgresql.org/">PostgreSQL</a> instance in my cluster. Using Kubernetes <a href="https://kubernetes.io/docs/concepts/overview/object-management-kubectl/declarative-config/">Configuration Files</a> are a great way to create and delete resources quickly without a lot of manual commands. After creating some files once and creating a single PostgreSQL deployment, I realized it would be really easy to turn the files into templates to allow creating as many different instances as I wanted.</p>
 <p>Below, I'll take you through the process of creating the template files and using <a href="https://github.com/enquirer/enquirer">Enquirer</a> with <a href="https://github.com/generate/generate">Generate</a> to create the Kubernetes configuration files and deploy them.</p>
@@ -137,42 +130,42 @@ kubectl apply -f service.yaml
 <pre><code class="language-hbs">apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{name}}-config
+  name: markdown-config
   labels:
-    app: {{app}}
+    app: 
 data:
-  POSTGRES_DB: {{db}}
-  POSTGRES_USER: {{user}}
-  POSTGRES_PASSWORD: {{password}}
+  POSTGRES_DB: 
+  POSTGRES_USER: 
+  POSTGRES_PASSWORD: 
 </code></pre>
 <p>For the ConfigMap, I thought I would just name the config my generic name plus <code>-config</code>, and I needed an <code>app</code> name, and a <code>db</code>, <code>user</code>, and <code>password</code> for the database credentials. Simple enough.</p>
 <p><strong>storage.hbs</strong></p>
 <pre><code class="language-hbs">apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{storage}}
+  name: 
   labels:
-    app: {{app}}
+    app: 
 spec:
   storageClassName: do-block-storage
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{size}}Gi
+      storage: Gi
 </code></pre>
 <p>For the storage file, I created a new variable called <code>storage</code> which is <code>${name}-storage</code> if built using a JavaScript template literal. I'm also reusing <code>app</code> from the previous file and a new <code>size</code> variable but hardcoding the size to be in gigs (<code>Gi</code>).</p>
 <p><strong>deployment.hbs</strong></p>
 <pre><code class="language-hbs">apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{name}}
+  name: markdown
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{app}}
+        app: 
     spec:
       containers:
         - name: postgres
@@ -182,30 +175,30 @@ spec:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: {{name}}-config
+                name: markdown-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: {{db}}
-              subPath: {{db}}
+              name: 
+              subPath: 
       volumes:
-        - name: {{db}}
+        - name: 
           persistentVolumeClaim:
-            claimName: {{storage}}
+            claimName: 
 </code></pre>
 <p>The deployment file is longer, but there aren't that many variables to configure. They're all actually from the previous files and just reused here: <code>name</code>, <code>app</code>, <code>db</code>, and <code>storage</code>.</p>
 <p><strong>service.hbs</strong></p>
 <pre><code class="language-hbs">apiVersion: v1
 kind: Service
 metadata:
-  name: {{name}}
+  name: markdown
   labels:
-    app: {{app}}
+    app: 
 spec:
   type: NodePort
   ports:
    - port: 5432
   selector:
-   app: {{app}}
+   app: 
 </code></pre>
 <p>Finally, the service file just uses the <code>name</code> and <code>app</code> variables, which is easy enough.</p>
 <h2>Collecting values</h2>
@@ -216,25 +209,25 @@ spec:
 <pre><code class="language-hbs">apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{name}}-config
+  name: markdown-config
   labels:
-    app: {{app:name}}
+    app: 
 data:
-  POSTGRES_DB: {{db}}
-  POSTGRES_USER: {{user}}
-  POSTGRES_PASSWORD: {{password}}
+  POSTGRES_DB: 
+  POSTGRES_USER: 
+  POSTGRES_PASSWORD: 
 </code></pre>
 <p><strong>deployment.hbs</strong></p>
 <pre><code class="language-hbs">apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{name}}
+  name: markdown
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{app:name}}
+        app: 
     spec:
       containers:
         - name: postgres
@@ -244,31 +237,31 @@ spec:
             - containerPort: 5432
           envFrom:
             - configMapRef:
-                name: {{name}}-config
+                name: markdown-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: {{db}}
-              subPath: {{db}}
+              name: 
+              subPath: 
       volumes:
-        - name: {{db}}
+        - name: 
           persistentVolumeClaim:
-            claimName: {{storage}}
+            claimName: 
 </code></pre>
 <p><strong>service.hbs</strong></p>
 <pre><code class="language-hbs">apiVersion: v1
 kind: Service
 metadata:
-  name: {{name}}
+  name: markdown
   labels:
-    app: {{app:name}}
+    app: 
 spec:
   type: NodePort
   ports:
    - port: 5432
   selector:
-   app: {{app:name}}
+   app: 
 </code></pre>
-<p>In three of the templates we're just change the <code>{{app}}</code> template to <code>{{app:name}}</code>. This tells the snippet prompt to use the value of <code>name</code> for <code>app</code> unless the user types in their own value.</p>
+<p>In three of the templates we're just change the <code></code> template to <code></code>. This tells the snippet prompt to use the value of <code>name</code> for <code>app</code> unless the user types in their own value.</p>
 <h2>JavaScript code</h2>
 <p>Now to the actual code! I'm going to use <a href="https://github.com/generate/generate">generate</a> as a convenient way to run the code. Our file structure will look like this:</p>
 <p><img src="/public/images/2019-01-11-file-structure.png" alt="File structure"></p>
@@ -450,222 +443,11 @@ kubectl apply -f mypostgres-service.yaml
 <h2>Wrapping it up</h2>
 <p>This post went from starting with a few hardcoded Kubernetes configuration files to being able to generate any number of configuration files from user supplied input. By combining a few tools (templates, enquirer, and generate), we're able to create powerful command line apps that help make developers more productive while producing less bugs.</p>
 <p>If you haven't already, please check out <a href="https://github.com/generate/generate">generate</a> and <a href="https://github.com/enquirer/enquirer">enquirer</a> to learn about more powerful features they over. Also, subscribe to my newsletter and follow me on <a href="https://twitter/doowb">twitter</a> and <a href="https://github.com/doowb">GitHub</a> to be notified of new blog posts.</p>
-
-      <br><br>
-      <hr>
-      <br><br>
-    </div>
-    <div class="blog-post">
-      <h2 class="blog-post-title"><a href="2019/01/04/new-year-2019.html">New Year 2019</a></h2>
-      <p class="blog-post-meta">January 4th, 2019 by <a href="https://github.com/doowb">doowb</a></p>
-
-      <div>
-  <img src="https://images.unsplash.com/photo-1537470284582-8da71000386c?ixlib&#x3D;rb-1.2.1&amp;q&#x3D;80&amp;fm&#x3D;jpg&amp;crop&#x3D;entropy&amp;cs&#x3D;tinysrgb&amp;w&#x3D;1080&amp;fit&#x3D;max&amp;ixid&#x3D;eyJhcHBfaWQiOjQ4MjI0fQ">
-  <span class="small em muted">
-    Photo by <a href="https://unsplash.com/@nordwood?utm_source=blog&utm_medium=referral">NordWood Themes</a> on <a href="https://unsplash.com/?utm_source=blog&utm_medium=referral">Unsplash</a>
-  </span>
+  <br><br>
+    <hr>
+  <br><br>
 </div>
 
-      <h2>Happy New Year 2019!!!</h2>
-<p>It's a new year, so it must be time to make some resolutions. I've always wanted to write more and publish blog posts about programming and technology. In the past, most of my writing has been developer API docs and code comments. I'd like to expand that writing into other areas, so below I'm making three resolutions that I think will help my writing.</p>
-<h3>Resolutions</h3>
-<p><strong>Writing blog posts</strong></p>
-<p>My first resolution to help with writing is to commit to publishing a new blog post once a week. I wanted to start this off last month with a series of short posts that went step-by-step to create a web app with <a href="https://nodejs.org/en/">Node.js</a> and <a href="http://expressjs.com/">Express</a>. Unfortunately for the blog series, I spent more time working on another project and wasn't able to get back to finishing the posts. I changed the dates on the posts as a reminder to do the series next year.</p>
-<p>Take a look at the <a href="https://github.com/doowb/doowb.github.com/tree/build">build branch</a> of this site's <a href="https://github.com/doowb/doowb.github.com">GitHub repository</a> if you want to see drafts of what I'm working on. The blog is created using <a href="https://github.com/assemble/assemble">assemble</a> and will be updated to use assemble's latest features to act as an up-to-date example of creating a blog. Issues, bug fixes, and typo corrects are definitely welcome!</p>
-<p><strong>More reading</strong></p>
-<p>Another resolution that I'm making is to read more books. I think that reading more will help with understanding how other people writing and how I can improve my own writing.</p>
-<p>I read a lot of blog posts, articles, and documentation already, but I want to read more books this year. They can be technical, business, or fiction. To achieve this, I'm going to commit to reading at least one book every two weeks. This way, I'll read at least 26 books this year. I'll also commit to posting what I'm reading and maybe a short review of the book.</p>
-<p><strong>Health</strong></p>
-<p>My third resolution is to focus on my health more. I believe that eating better and exercising will be beneficial to my physical health, as well as, my mental health. I've been following <a href="https://www.nerdfitness.com/">Nerd Fitness</a> for years and I'll probably sign up for their <a href="https://www.nerdfitness.com/academy-overview-page/">Nerd Fitness Academy</a> sometime in the next few weeks. When I do this, I'll blog about my experiences with the program and what I find to work and what doesn't work for me.</p>
-<h3>Next time</h3>
-<p>That's all for this post. To summarize, I'm kicking off the year by committing to three resolutions to write more blog posts, read more books, and focus more on my health. Stay tuned for my next post on January 11th, 2019 and will have to do with programming or some technology. I have a few ideas that I'm excited to talk about and expand on, so I believe 2019 will be a fun year!</p>
-
-      <br><br>
-      <hr>
-      <br><br>
-    </div>
-    <div class="blog-post">
-      <h2 class="blog-post-title"><a href="2017/01/09/octobox.js.html">Octobox.js</a></h2>
-      <p class="blog-post-meta">January 9th, 2017 by <a href="https://github.com/doowb">doowb</a></p>
-
-      
-      <p><a href="https://octoboxjs.io"><img src="https://raw.githubusercontent.com/doowb/octobox.js/master/docs/demo.png" alt="octobox.js demo"></a></p>
-<p>I published a new project last night called <a href="https://github.com/doowb/octobox.js">octobox.js</a> that's a <a href="https://nodejs.org/en/">node.js</a> project using <a href="http://expressjs.com/">express</a>, <a href="http://handlebarsjs.com/">handlebars</a>, and <a href="http://docs.sequelizejs.com/en/v3/">sequelize</a> instead of Ruby on Rails and ActiveDirectory.</p>
-<p>The code can be found on GitHub at <a href="https://github.com/doowb/octobox.js">https://github.com/doowb/octobox.js</a> and the application is hosted on Heroku at <a href="https://octoboxjs.io">https://octoboxjs.io</a>.</p>
-<p>I'll be documenting the process that I took to port the application and the libraries that I had to use and/or create to provide similar features to the original Ruby on Rails application.</p>
-
-      <br><br>
-      <hr>
-      <br><br>
-    </div>
-    <div class="blog-post">
-      <h2 class="blog-post-title"><a href="2017/01/09/heading-to-codemash.html">Heading to CodeMash</a></h2>
-      <p class="blog-post-meta">January 9th, 2017 by <a href="https://github.com/doowb">doowb</a></p>
-
-      
-      <p>Leaving for <a href="http://codemash.org">CodeMash</a> today with <a href="https://github.com/jonschlinkert">Jon Schlinkert</a>. Hope to have updates over the next week with all of the interesting things I'll be learning and all the people I'll get to talk to.</p>
-<p>If you're there and want to meetup, feel free to tweet me <a href="https://twitter/doowb">@doowb</a></p>
-
-      <br><br>
-      <hr>
-      <br><br>
-    </div>
-    <div class="blog-post">
-      <h2 class="blog-post-title"><a href="2014/01/30/angular-js-now-realtime-with-pusher.html">Realtime Angular.js with Pusher</a></h2>
-      <p class="blog-post-meta">January 30th, 2014 by <a href="https://github.com/doowb">doowb</a></p>
-
-      
-      <p>There has been a lot of hype around using <a href="https://www.firebase.com/">Firebase</a> and <a href="http://angularjs.org/">Angular.js</a> to create realtime applications. These applications are great at keeping the application's state in sync between clients and providing a full realtime document database simliar to <a href="http://www.mongodb.org/">MongoDB</a> and <a href="http://couchdb.apache.org/">CouchDB</a>. What if you already have an Angular.js application, your data is already stored in MongoDB, and you just want to notify connected clients that something on the server has changed? This is where <a href="http://pusher.com/">Pusher</a> and <a href="https://github.com/doowb/angular-pusher">angular-pusher</a> come into play.</p>
-<h3>Angular.js</h3>
-<p>Angular.js is a client side JavaScript framework built by Google. It provides the framework for building either small components that can be plugged in to your website or entire single page applications. At the core of Angular.js is a module system that allows creating providers, services, factories, and directives. All of these are used within controllers to create, retrieve, update, and delete data while providing nice features for manipulating the HTML DOM with little custom JavaScript code.</p>
-<p>In a simple Angular.js application, data is retrieved and sent to and from a backend server through an <code>$http</code> or <code>$resource</code> service provided by the framework. Below is an example of retrieving a list of items from an API and updating the selected item using the <code>$http</code> service.</p>
-<pre><code class="language-js">var ItemListController = function ($scope, $http) {
-  // initialize a list of items on the scope
-  $scope.items = [];
-
-  var retrieveItems = function () {
-    // get a list of items from the api located at '/api/items'
-    $http.get('/api/items')
-        .success(function (items) {
-          $scope.items = items;
-        });
-  };
-
-  $scope.updateItem = function (item) {
-    $http.post('/api/items', item);
-  };
-
-  // load the items
-  retrieveItems();
-};
-</code></pre>
-<pre><code class="language-html">&lt;div ng-controller='ItemListController'&gt;
-    &lt;h1&gt;Items&lt;/h1&gt;
-    &lt;table&gt;
-      &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Qty&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;
-      &lt;tr ng-repeat=&quot;item in items&quot;&gt;
-        &lt;td&gt;&lt;input type=&quot;text&quot; ng-model=&quot;item.name&quot;&gt;&lt;/td&gt;
-        &lt;td&gt;&lt;input type=&quot;text&quot; ng-model=&quot;item.qty&quot;&gt;&lt;/td&gt;
-        &lt;td&gt;&lt;button type=&quot;button&quot; ng-click=&quot;updateItem(item)&quot;&gt;Update&lt;/button&gt;&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/table&gt;
-&lt;/div&gt;
-</code></pre>
-<p>If we needed to know when items have been updated on the server by another user, we would have to constantly poll the server to find out if the <code>items</code> array changed.</p>
-<pre><code class="language-javascript">var ItemListController = function ($scope, $http, $timeout) {
-
-  $scope.items = [];
-
-  var retrieveItems = function () {
-    // get a list of items from the api located at '/api/items'
-    $http.get('/api/items')
-        .success(function (items) {
-          $scope.items = items;
-
-          // check for item changes
-          $timeout(retrieveItems, 5000);
-        });
-  };
-
-  ...
-};
-</code></pre>
-<p>As you can see, we just update the <code>items</code> array every five seconds which isn't something that we want to keep doing. If a user is making a lot of changes, then we don't want to keep overwriting the <code>items</code> array. You could build the logic to only update changed items, but you still have the issue of polling the server every five seconds. It would be much nicer if we could subscribe to an event and wait for a notification of changes in realtime.</p>
-<h3>Making Angular.js realtime with Pusher</h3>
-<p>Using Pusher will allow us to subscribe to events triggered by other clients. First I'll show you the simple changes needed in our <code>ItemLIstController</code> to use angular-pusher. Then I'll show you an example of using Pusher in a Node.js server when an item is updated.</p>
-<p>First, we need tell our Angular.js application to use angular-pusher. You can do this by either downloading the <a href="https://github.com/doowb/angular-pusher/blob/master/angular-pusher.js">development</a> or <a href="https://github.com/doowb/angular-pusher/blob/master/angular-pusher.min.js">production</a> files from <a href="https://github.com/doowb/angular-pusher/blob/master">GitHub</a> or using <code>bower install angular-pusher</code> and loading them into your page with the following script tag:</p>
-<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot; src=&quot;bower_components/angular-pusher/angular-pusher.min.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p>This should be loaded after the <code>angular.min.js</code> file and before your <code>application.js</code> script.</p>
-<p>Now we can tell our application that we want to use the services provided in <code>angular-pusher.min.js</code>.</p>
-<pre><code class="language-javascript">angular.module('myApp', ['doowb.angular-pusher']).
-
-config(['PusherServiceProvider',
-    function(PusherServiceProvider) {
-        PusherServiceProvider
-            .setToken('d420162e600c57b0e60f')
-            .setOptions({});
-    }
-]);
-</code></pre>
-<p>The angular-pusher module has a <code>PusherServiceProvider</code> that can be configured when creating your application. Here is where you can set your Pusher application key (<code>PusherServiceProvider.setToken('token')</code>), additional Pusher options (<code>PusherServiceProvider.setOptions(options)</code>), and a specific version of Pusher (<code>PusherServiceProvider.setPusherUrl(url)</code>). The Pusher url has a default, but it may be an older version.</p>
-<p>Now we can use Pusher in our controller to subscribe to events and be notified when our <code>items</code> array changes:</p>
-<pre><code class="language-javascript">var ItemListController = function($scope, $http, Pusher) {
-    $scope.items = [];
-
-    Pusher.subscribe('items', 'updated', function (item) {
-    // an item was updated. find it in our list and update it.
-        for (var i = 0; i &lt; $scope.items.length; i++) {
-            if ($scope.items[i].id === item.id) {
-                $scope.items[i] = item;
-                break;
-            }
-        }
-    });
-
-  var retrieveItems = function () {
-    // get a list of items from the api located at '/api/items'
-    console.log('getting items');
-    $http.get('/api/items')
-        .success(function (items) {
-          $scope.items = items;
-      });
-  };
-
-  $scope.updateItem = function (item) {
-    console.log('updating item');
-    $http.post('/api/items', item);
-  };
-
-  // load the items
-  retrieveItems();
-}
-</code></pre>
-<p>In the Node.js server, we setup our connection to Pusher with a few lines of code. It only takes one more line of code to trigger the actual update notification:</p>
-<pre><code class="language-javascript">// setup Pusher
-var Pusher = require('pusher');
-var pusher = new Pusher({
-  appId: '12345',
-  key: 'some key',
-  secret: 'my secret... shhh!!!'
-});
-
-// in our express server
-// setup a post route and trigger the change in Pusher
-app.post('/api/items', function (req, res) {
-
-  // get our item from the req and update the item collection
-  // in a production application this would have validation and items
-  // would be stored in a database.
-  var item = req.body;
-  items[item.id] = item;
-
-  // tell Pusher to trigger an 'updated' event on the 'items' channel
-  // add pass the changed item to the event
-  pusher.trigger('items', 'updated', item);
-
-  // respond with the changed item
-  res.json(item);
-});
-
-</code></pre>
-<h3>Get Pushing</h3>
-<p>All of this code can be found <a href="https://github.com/doowb/angular-pusher">here on GitHub</a>. The <a href="https://github.com/doowb/angular-pusher/tree/gh-pages"><code>gh-pages</code> branch</a> contains the examples that these code snippets came from. The application itself can be <a href="http://doowb.github.io/angular-pusher">found here</a>, but the server side examples won't work when hosted on <a href="http://pages.github.com/">GitHub Pages</a>.</p>
-<p>Hopefully this article and the code samples are enough to get your Angular.js application working with Pusher.</p>
-
-      <br><br>
-      <hr>
-      <br><br>
-    </div>
-  </div>
-
-  <div class="span3 offset1 blog-sidebar">
-    <div class="sidebar-module sidebar-module-inset">
-      <h4>About</h4>
-      <p>Learn more about me on <a href="https://github.com/doowb" target="_blank">GitHub</a> and follow me on twitter <a href="https://twitter/doowb" target="_blank">@doowb</a></p>
-    </div>
-  </div><!-- /.blog-sidebar -->
-</div>
 
     </div>
     <script>
