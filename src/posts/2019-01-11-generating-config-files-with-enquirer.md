@@ -298,7 +298,7 @@ In three of the templates we're just change the `{{app}}` template to `{{app:nam
 
 Now to the actual code! I'm going to use [generate](https://github.com/generate/generate) as a convenient way to run the code. Our file structure will look like this:
 
-![File structure](/assets/images/2019-01-11-file-structure.png)
+![File structure](/public/images/2019-01-11-file-structure.png)
 
 The `templates` folder contains all of the Handlebars templates that we created above. We'll read these files in to supply to the snippet prompt to gather values and write out new `.yaml` files that can be used with `kubectl`.
 

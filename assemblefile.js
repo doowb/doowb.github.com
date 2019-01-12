@@ -53,7 +53,7 @@ app.task('copy', ['copy-images'], () => {
 });
 
 app.task('copy-images', () => {
-  return app.copy(['src/assets/images/**/*'], '_gh_pages/assets/images', {dot: true});
+  return app.copy(['src/assets/images/**/*'], '_gh_pages/public/images', {dot: true});
 });
 
 app.task('clean', cb => {
