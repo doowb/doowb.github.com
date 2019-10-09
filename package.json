@@ -15,6 +15,10 @@
   "engines": {
     "node": ">= 8"
   },
+  "scripts": {
+    "build": "assemble build",
+    "deploy": "assemble deploy"
+  },
   "devDependencies": {
     "assemble": "^0.17.1",
     "data-store": "^3.1.0",
