@@ -9,6 +9,9 @@
     "url": "https://github.com/doowb/doowb.github.com/issues"
   },
   "license": "MIT",
+  "files": [
+    "lib"
+  ],
   "engines": {
     "node": ">= 8"
   },
